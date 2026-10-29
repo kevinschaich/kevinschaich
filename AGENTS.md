@@ -49,7 +49,8 @@ call, then push. Kevin imports the repo into the `kevinschaich-team` Vercel team
 deploys every push. No tokens or secrets in project repos. Beyond that one import, never configure
 anything in the Vercel dashboard: if something seems to need it, put it in `vercel.json` or ask Kevin.
 
-- **Public repo.** Every project listed on /projects is a public repository.
+- **Public repo.** Every project listed on /projects is a public repository. Its GitHub website link is
+  `https://kevinschaich.com/project/<slug>/` (`gh repo edit --homepage …`), never the vercel.app URL.
 - **GitHub topic** `kevinschaich-project`, on a repo owned by `kevinschaich` or the `darkgrade` org (the
   owners the hub searches; see `OWNERS` in `apps/site/lib/projects.ts`). This alone lists the repo on https://kevinschaich.com/projects
   and gives it a page at `https://kevinschaich.com/project/<slug>/`: the live demo, or for a project with
@@ -62,7 +63,10 @@ anything in the Vercel dashboard: if something seems to need it, put it in `verc
   white everywhere, and `accent` or `emoji` are ignored. Optional:
   - `"url": "https://<slug>.vercel.app"`: the deployed demo, which `/project/<slug>/` proxies. Add it after
     the first deploy.
-  - `"demo": false`: no live demo; the page renders the README. (Without `project.json` the hub uses the
+  - `"demo": false`: no live demo; the page renders the README.
+  - `"screenshot": "screenshot.jpg"`: a 3840×2160 screenshot of the app in use, committed in the repo. The hub draws
+    it behind the project's OG card and /projects tile. Show the most interesting screen with realistic inputs, as
+    someone would actually use it. `bun scripts/screenshots.mjs <slug>` in the hub captures it headlessly. (Without `project.json` the hub uses the
     repo name and description and treats it as README-only.)
   - `"typeset": { "body": "…", "heading": "…", "mono": "…", "size": "15px", "leading": 1.75, "flow": "1.25em", "measure": "37em" }`:
     typefaces (Google Fonts names) and typeset's knobs. Change nothing else about type.
