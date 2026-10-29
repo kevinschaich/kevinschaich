@@ -2,7 +2,14 @@ import { brandImageRoute } from '@/app/components/brand-image'
 import { iconDataURI } from '@/lib/icon'
 import { getProjects } from '@/lib/projects'
 
-/** The one OG layout every project shares: icon, "<Name> by kevinschaich" and the tagline, in white. */
+// typeset's proportions (packages/components/src/typeset.css) at card scale: h1 is 1.75em at weight 600 and
+// line-height 1.3, body text 1.75 leading, 1em under a heading, --typeset-flow (1.25em) between blocks.
+const BODY = 40
+const FLOW = BODY * 1.25
+// shadcn zinc (dark): --background, --foreground, --muted-foreground, --border.
+const ZINC = { background: '#09090b', foreground: '#fafafa', muted: '#a1a1aa', border: '#27272a' }
+
+/** The one OG layout every project shares: icon, name, tagline, then "by kevinschaich", set like a README. */
 export const GET = brandImageRoute(
     ({ name, tagline, icon }) => (
         <div
@@ -12,20 +19,20 @@ export const GET = brandImageRoute(
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                padding: 96,
-                backgroundColor: '#09090b',
+                padding: '48px 96px',
+                backgroundColor: ZINC.background,
                 fontFamily: 'body',
-                color: '#fafafa',
+                fontSize: BODY,
+                lineHeight: 1.75,
+                color: ZINC.foreground,
             }}
         >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 112, height: 112, marginBottom: 40, background: '#000', borderRadius: 16, border: '2px solid #27272a' }}>
-                <img src={iconDataURI(icon)} width={68} height={68} alt="" />
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 88, height: 88, flexShrink: 0, marginBottom: FLOW, background: '#000', borderRadius: 16, border: `2px solid ${ZINC.border}` }}>
+                <img src={iconDataURI(icon)} width={52} height={52} alt="" />
             </div>
-            <div style={{ display: 'flex', alignItems: 'baseline', flexWrap: 'wrap' }}>
-                <span style={{ fontFamily: 'heading', fontSize: 104, fontWeight: 700, letterSpacing: -4, lineHeight: 1, marginRight: 28 }}>{name}</span>
-                <span style={{ fontSize: 40, color: '#a1a1aa' }}>by kevinschaich</span>
-            </div>
-            {tagline && <div style={{ fontSize: 48, marginTop: 36, color: '#d4d4d8', lineHeight: 1.25 }}>{tagline}</div>}
+            <div style={{ fontFamily: 'heading', fontSize: BODY * 1.75, fontWeight: 600, lineHeight: 1.3, flexShrink: 0 }}>{name}</div>
+            {tagline && <div style={{ marginTop: BODY, flexShrink: 0 }}>{tagline}</div>}
+            <div style={{ marginTop: FLOW, flexShrink: 0, color: ZINC.muted }}>by kevinschaich</div>
         </div>
     ),
     { width: 1200, height: 630 },

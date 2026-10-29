@@ -17,7 +17,7 @@ export function brandImageRoute(render: (p: Project, size: Size) => React.ReactE
         const { body, heading } = faces(project.typeset)
         const fonts = await Promise.all([
             googleFont(body, 400).then((data) => ({ name: 'body', data, weight: 400 as const })),
-            googleFont(heading, 700).then((data) => ({ name: 'heading', data, weight: 700 as const })),
+            googleFont(heading, 600).then((data) => ({ name: 'heading', data, weight: 600 as const })),
         ])
         return new ImageResponse(render(project, dims), {
             ...dims,
