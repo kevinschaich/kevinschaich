@@ -29,7 +29,7 @@
         "highlight.js": "^11.12.0",
         "hls.js": "^1.7.3",
         "lucide": "^1.63.0",
-        "next": "^15.5.0",
+        "next": "^16.0.0",
         "react": "19.1.1",
         "react-dom": "19.1.1",
         "rehype-autolink-headings": "^7.1.0",
