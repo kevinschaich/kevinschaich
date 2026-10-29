@@ -23,17 +23,16 @@ jobs:
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
+      # Trusted publishing (OIDC) needs npm 11.5.1+; Node 22 ships npm 10.
+      - run: npm install -g npm@latest
+      # Publishes through npm trusted publishing: npm verifies this workflow's GitHub identity (id-token
+      # above), so there's no npm token to store or rotate. Configured on npmjs.com under the package's
+      # Settings → Trusted publishing (repo kevinschaich/kevinschaich, workflow components.yml).
       - name: Publish if this version is new
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          if [ -z "$NODE_AUTH_TOKEN" ]; then
-            echo "::notice::NPM_TOKEN isn't set, so @kevinschaich/components isn't published yet. Add the secret to publish."
-            exit 0
-          fi
           version=$(node -p "require('./package.json').version")
           if npm view "@kevinschaich/components@$version" version >/dev/null 2>&1; then
             echo "$version is already published"
           else
-            npm publish --provenance --access public
+            npm publish --access public
           fi
