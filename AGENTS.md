@@ -147,8 +147,21 @@ Starts with this line, then project-specific notes, then an **Approved exception
 
 ## Components and styling
 
-- React projects: `bun add @kevinschaich/components`, then `import { Byline } from '@kevinschaich/components'` (render `<Byline repo="kevinschaich/<repo>" />`)
-  and `import '@kevinschaich/components/styles.css'`. Add a `renovate.json` with
+- **Components are shadcn, through `@kevinschaich/components`.** It contains every shadcn component
+  (base-nova style, zinc theme, Base UI), unmodified, plus the byline. Never install shadcn, Base UI or Radix
+  in a project, and never copy a component into one. If something is missing or needs changing, change
+  `packages/components` in the hub first (`bunx shadcn add <name>` there, or a deliberate edit in its own
+  commit), then use it.
+- React projects: `bun add @kevinschaich/components`, then in the main CSS file:
+  ```css
+  @import "tailwindcss";
+  @import "@kevinschaich/components/theme.css";
+  @import "@kevinschaich/components/styles.css";
+  @source "../node_modules/@kevinschaich/components/dist";
+  ```
+  Put `class="dark"` on `<html>`. Import components by name (`import { Button, Card } from
+  '@kevinschaich/components'`, or one at a time from `@kevinschaich/components/ui/button`) and render
+  `<Byline repo="kevinschaich/<repo>" />`. Add a `renovate.json` with
   `{ "extends": ["github>kevinschaich/kevinschaich//.github/renovate-project-preset"] }` so Renovate
   auto-merges updates.
 - No-build pages: load the runtime kit, which always matches `main`:
@@ -160,7 +173,7 @@ Starts with this line, then project-specific notes, then an **Approved exception
   ```
   Put `<span data-ks-byline="kevinschaich/<repo>"></span>` where the byline goes, or call
   `window.kevinschaich.bylineHTML("kevinschaich/<repo>")`.
-- Look: shadcn zinc theme (dark), 8px radius.
+- Look: shadcn's zinc theme, dark, with shadcn's default radius (`--radius: 0.625rem`).
 - Type: [shadcn/typeset](https://ui.shadcn.com/docs/typeset). `typeset.css` is vendored unmodified (a weekly
   job opens a PR when upstream changes); customize only through presets. Article content goes in
   `<div class="typeset typeset-kevinschaich">`; use `not-typeset` to exclude embedded components.

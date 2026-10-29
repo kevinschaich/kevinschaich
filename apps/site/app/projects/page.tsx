@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { getProjects } from '@/lib/projects'
 import { Byline } from '@kevinschaich/components'
+import '@fontsource-variable/public-sans'
 import '@kevinschaich/components/styles.css'
 
 export const dynamic = 'force-static'

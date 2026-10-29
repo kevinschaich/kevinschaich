@@ -1,26 +1,54 @@
-/* Shared tokens (shadcn zinc, dark), fonts and the typeset preset. Works in plain HTML pages and alongside
-   shadcn/Tailwind: variable names match shadcn's. Tokens sit on :where(:root) so a host page's own :root
-   wins; wrap content in .ks-theme to force them. Pair with typeset.css (vendored, unmodified). */
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+/* Kevin's branding on top of shadcn: fonts, the typeset preset, GitHub alerts and the byline, plus shadcn's dark
+   zinc tokens for pages without Tailwind (generated from theme.css). Tokens sit on :where(:root) so a host
+   page's own :root wins; wrap content in .ks-theme to force them. Pair with typeset.css (vendored, unmodified). Fonts: Tailwind projects get them from theme.css;
+   the runtime kit's brand.css loads them from Google Fonts. */
 
+/* tokens:start (generated from theme.css by scripts/sync-tokens.mjs: shadcn zinc, dark) */
 :where(:root),
 .ks-theme {
     --background: oklch(0.141 0.005 285.823);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.21 0.006 285.885);
     --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.21 0.006 285.885);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.92 0.004 286.32);
+    --primary-foreground: oklch(0.21 0.006 285.885);
+    --secondary: oklch(0.274 0.006 286.033);
+    --secondary-foreground: oklch(0.985 0 0);
     --muted: oklch(0.274 0.006 286.033);
     --muted-foreground: oklch(0.705 0.015 286.067);
+    --accent: oklch(0.274 0.006 286.033);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
     --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
     --ring: oklch(0.552 0.016 285.938);
-    --radius: 0.5rem;
+    --chart-1: oklch(0.871 0.006 286.286);
+    --chart-2: oklch(0.552 0.016 285.938);
+    --chart-3: oklch(0.442 0.017 285.786);
+    --chart-4: oklch(0.37 0.013 285.805);
+    --chart-5: oklch(0.274 0.006 286.033);
+    --sidebar: oklch(0.21 0.006 285.885);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.488 0.243 264.376);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.274 0.006 286.033);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.552 0.016 285.938);
+    --radius: 0.625rem;
+}
+/* tokens:end */
 
-    /* Fonts come only from these. A project's project.json `typeset` overrides them via /kit/v1/project/<slug>.css. */
-    --font-sans: 'Public Sans', ui-sans-serif, system-ui, sans-serif;
+/* Fonts come only from these. A project's project.json `typeset` overrides them via /kit/v1/project/<slug>.css. */
+:where(:root),
+.ks-theme {
+    --font-sans: 'Public Sans Variable', 'Public Sans', ui-sans-serif, system-ui, sans-serif;
     --font-heading: var(--font-sans);
-    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
 
-    /* Tailwind 4 names, which typeset.css reads. */
+    /* Tailwind 4 names, which typeset.css reads (Tailwind projects get these from theme.css). */
     --color-foreground: var(--foreground);
     --color-muted-foreground: var(--muted-foreground);
     --color-border: var(--border);
