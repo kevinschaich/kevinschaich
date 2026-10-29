@@ -189,6 +189,8 @@ Starts with this line, then project-specific notes, then an **Approved exception
   ```
   Put `<span data-ks-byline="kevinschaich/<repo>"></span>` where the byline goes, or call
   `window.kevinschaich.bylineHTML("kevinschaich/<repo>")`.
+- **Switches:** every one-of-a-few choice (view tabs, modes, tiers, basemaps) uses `Segmented` / `SegmentedItem`
+  from `@kevinschaich/components`, never Tabs or an outline ToggleGroup, so they all match.
 - Look: shadcn's zinc theme, dark, with shadcn's default radius (`--radius: 0.625rem`).
 - Type: [shadcn/typeset](https://ui.shadcn.com/docs/typeset). `typeset.css` is vendored unmodified (a weekly
   job opens a PR when upstream changes); customize only through presets. Article content goes in
