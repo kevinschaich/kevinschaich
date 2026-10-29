@@ -102,7 +102,8 @@ async function load(): Promise<Project[]> {
     const pinnedSlugs = new Set(pinned.map((p) => p.slug))
     const pinnedRepos = new Set(PINNED.map((p) => p.fullName))
     const rest = discovered.filter((p) => !pinnedSlugs.has(p.slug) && !pinnedRepos.has(p.fullName))
-    return [...pinned, ...rest.sort((a, b) => a.name.localeCompare(b.name))]
+    // Live demos first, README-only projects (like amaran-bridge) last; alphabetical within each.
+    return [...pinned, ...rest.sort((a, b) => Number(b.demo) - Number(a.demo) || a.name.localeCompare(b.name))]
 }
 
 /** A pinned project: its repo as discovered (or looked up, if it lacks the topic) with the pinned fields on top. */
