@@ -1,4 +1,18 @@
 {
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": ["config:recommended"]
+    "extends": [
+        "config:recommended"
+    ],
+    "packageRules": [
+        {
+            "description": "packages/components builds its types with tsup, whose declaration build needs TypeScript's compiler API, which TypeScript 7 dropped. Stay on 5.x until tsup supports 7.",
+            "matchFileNames": [
+                "packages/components/package.json"
+            ],
+            "matchPackageNames": [
+                "typescript"
+            ],
+            "allowedVersions": "<6"
+        }
+    ]
 }
