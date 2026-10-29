@@ -1,17 +1,21 @@
 import * as React from "react"
 import { cn } from "cn"
 
+// Customized: `glass` makes a translucent, blurred card for UI floating over live content (maps, game views).
 function Card({
   className,
   size = "default",
+  glass = false,
   ...props
-}: React.ComponentProps<"div"> & { size?: "default" | "sm" }) {
+}: React.ComponentProps<"div"> & { size?: "default" | "sm"; glass?: boolean }) {
   return (
     <div
       data-slot="card"
       data-size={size}
+      data-glass={glass || undefined}
       className={cn(
         "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 [--card-spacing:--spacing(4)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
+        "data-glass:bg-card/70 data-glass:backdrop-blur-xl data-glass:backdrop-saturate-150",
         className
       )}
       {...props}

@@ -1,6 +1,6 @@
 {
     "name": "@kevinschaich/components",
-    "version": "0.3.0",
+    "version": "0.4.0",
     "description": "Shared branding and components for Kevin Schaich's projects",
     "license": "MIT",
     "type": "module",
