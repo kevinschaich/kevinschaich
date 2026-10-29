@@ -60,24 +60,9 @@ const SCENES = {
             await sleep(2000)
         },
     },
-    // Pebble Beach's 7th at golden hour, mid-flight over the Pacific.
-    'fairway-atlas': {
-        repo: 'fairway-atlas',
-        url: 'https://kevinschaich.com/project/fairway-atlas/?course=pebble&hole=7&time=17.4&clouds=0.3',
-        async before(context) {
-            await context.addInitScript(() => {
-                localStorage.setItem('fairway-audio-v1', JSON.stringify({ volume: 0, muted: true }))
-                localStorage.setItem('fairway-commentary-v1', JSON.stringify({ enabled: false, volume: 0 }))
-            })
-        },
-        async run(page) {
-            await page.waitForFunction(() => document.querySelector('button')?.textContent, null, { timeout: 60000 })
-            await page.waitForFunction(() => [...document.querySelectorAll('button')].some((b) => /Take your shot/.test(b.textContent) && !b.disabled), null, { timeout: 120000 })
-            await sleep(8000)
-            await page.getByRole('button', { name: 'Play at set power' }).click()
-            await sleep(Number(process.env.FA_AFTER ?? 1800))
-        },
-    },
+    // Fairway Atlas is not here on purpose: its screenshot is taken by hand (a WebGPU game needs a real display and
+    // a well-timed moment), so this script never overwrites it.
+
 }
 
 const only = process.argv.slice(2)

@@ -34,7 +34,7 @@ export type Project = {
  * the repo's own; `iconURL` is a square SVG or PNG that's already white on black, fetched at build time.
  * `link` sends the tile and /project/<slug>/ to the project's own site instead of its demo or README.
  */
-const PINNED: { slug: string; name: string; tagline: string; iconURL: string; fullName: string; link?: string }[] = [
+const PINNED: { slug: string; name: string; tagline: string; iconURL: string; fullName: string; link?: string; screenshot?: string }[] = [
     {
         slug: 'darkgrade',
         name: 'Darkgrade',
@@ -42,6 +42,8 @@ const PINNED: { slug: string; name: string; tagline: string; iconURL: string; fu
         iconURL: 'https://darkgrade.com/darkgrade_favicon_dark.svg',
         fullName: 'darkgrade/darkgrade',
         link: 'https://darkgrade.com',
+        // the Darkgrade film behind kevinschaich.com at 0:09: Kevin in his own studio (Mux thumbnail, 3840 wide)
+        screenshot: 'https://raw.githubusercontent.com/kevinschaich/kevinschaich/main/apps/site/public/darkgrade-studio.jpg',
     },
 ]
 
@@ -114,7 +116,7 @@ async function pinnedProject(pin: (typeof PINNED)[number], discovered: Project[]
     if (!res.ok) throw new Error(`${res.status} ${pin.iconURL}`)
     const type = res.headers.get('content-type')?.split(';')[0] || (pin.iconURL.endsWith('.svg') ? 'image/svg+xml' : 'image/png')
     const iconImage = `data:${type};base64,${Buffer.from(await res.arrayBuffer()).toString('base64')}`
-    return { ...base, slug: pin.slug, name: pin.name, tagline: pin.tagline, iconImage, link: pin.link }
+    return { ...base, slug: pin.slug, name: pin.name, tagline: pin.tagline, iconImage, link: pin.link, screenshot: pin.screenshot ?? base.screenshot }
 }
 
 export const raw = (repo: { full_name: string; default_branch: string }) =>
