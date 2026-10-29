@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { getProjects } from '@/lib/projects'
+import { Byline } from '@kevinschaich/components'
 import '@kevinschaich/components/styles.css'
 
 export const dynamic = 'force-static'
@@ -17,9 +18,7 @@ export default async function Projects() {
         <div className="ks-theme relative z-[2] min-h-dvh">
             <main className="mx-auto w-full max-w-6xl px-4 py-[clamp(32px,6vh,64px)]">
                 <nav className="mb-8 text-sm">
-                    <span className="ks-byline">
-                        <a href="/">by kevinschaich</a> · <a href="/projects">view all projects</a>
-                    </span>
+                    <Byline newTab={false} />
                 </nav>
                 <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                     {projects.map((p) => (

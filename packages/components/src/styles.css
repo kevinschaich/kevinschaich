@@ -63,7 +63,7 @@
 .markdown-alert-warning { --ks-alert: #facc15; }
 .markdown-alert-caution { --ks-alert: #f87171; }
 
-/* Byline: "by kevinschaich · view all projects". */
+/* Byline: "by kevinschaich · code on github · all projects". */
 .ks-byline {
     font-family: var(--font-sans);
     font-size: 12px;

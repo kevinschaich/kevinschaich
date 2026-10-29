@@ -85,8 +85,10 @@ anything in the Vercel dashboard: if something seems to need it, put it in `verc
 ## Every page
 
 - **Title**: `<Name> | by kevinschaich`, exactly.
-- **Byline**: "by kevinschaich" → https://kevinschaich.com and "view all projects" →
-  https://kevinschaich.com/projects. Use the shared byline, never a hand-rolled copy.
+- **Byline**: "by kevinschaich · code on github · all projects", linking to https://kevinschaich.com, the
+  project's own GitHub repo, and https://kevinschaich.com/projects. Use the shared byline, never a
+  hand-rolled copy, and always pass the project's repo (`<Byline repo="kevinschaich/<repo>" />`, or
+  `<span data-ks-byline="kevinschaich/<repo>"></span>` on no-build pages).
 - **Relative asset paths only** (`worker.js`, not `/worker.js`).
 - **Use the kevinschaich.com address.** Third-party data hosts may block `*.vercel.app` origins (Overture's
   tiles.overturemaps.org answers 403 to them but serves kevinschaich.com), so always test and link
@@ -144,7 +146,7 @@ Starts with this line, then project-specific notes, then an **Approved exception
 
 ## Components and styling
 
-- React projects: `bun add @kevinschaich/components`, then `import { Byline } from '@kevinschaich/components'`
+- React projects: `bun add @kevinschaich/components`, then `import { Byline } from '@kevinschaich/components'` (render `<Byline repo="kevinschaich/<repo>" />`)
   and `import '@kevinschaich/components/styles.css'`. Add a `renovate.json` with
   `{ "extends": ["github>kevinschaich/kevinschaich//.github/renovate-project-preset"] }` so Renovate
   auto-merges updates.
@@ -155,7 +157,8 @@ Starts with this line, then project-specific notes, then an **Approved exception
   <link rel="stylesheet" href="https://kevinschaich.com/kit/v1/project/<slug>.css">
   <script type="module" src="https://kevinschaich.com/kit/v1/brand.js"></script>
   ```
-  Put `<span data-ks-byline></span>` where the byline goes, or call `window.kevinschaich.bylineHTML()`.
+  Put `<span data-ks-byline="kevinschaich/<repo>"></span>` where the byline goes, or call
+  `window.kevinschaich.bylineHTML("kevinschaich/<repo>")`.
 - Look: shadcn zinc theme (dark), 8px radius.
 - Type: [shadcn/typeset](https://ui.shadcn.com/docs/typeset). `typeset.css` is vendored unmodified (a weekly
   job opens a PR when upstream changes); customize only through presets. Article content goes in

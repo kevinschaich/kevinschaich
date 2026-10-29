@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { getProject, getProjects } from '@/lib/projects'
 import { renderReadme } from '@/lib/readme'
 import '@kevinschaich/components/typeset.css'
+import { Byline } from '@kevinschaich/components'
 import '@kevinschaich/components/styles.css'
 import 'highlight.js/styles/github-dark.css'
 
@@ -44,9 +45,7 @@ export default async function ProjectReadme({ params }: Props) {
                 <nav className="mb-8 flex items-center justify-between gap-4 text-sm">
                     <span className="flex items-center gap-3">
                         <img src={`/icon/${project.slug}.png`} alt="" width={28} height={28} className="rounded-[calc(var(--radius)*0.75)]" />
-                        <span className="ks-byline">
-                        <a href="/">by kevinschaich</a> · <a href="/projects">view all projects</a>
-                        </span>
+                        <Byline newTab={false} />
                     </span>
                     <a
                         href={project.repo}
