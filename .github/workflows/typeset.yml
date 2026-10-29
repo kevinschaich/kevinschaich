@@ -1,0 +1,25 @@
+# Keeps packages/components/src/typeset.css in step with shadcn/typeset. Never edit that file by hand;
+# customize through presets in styles.css.
+name: Update typeset
+
+on:
+  schedule:
+    - cron: "0 14 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: curl -fsSL https://ui.shadcn.com/typeset.css -o packages/components/src/typeset.css
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: update-typeset
+          title: Update typeset.css from shadcn
+          commit-message: Update typeset.css from shadcn
+          body: Upstream changes to https://ui.shadcn.com/typeset.css.

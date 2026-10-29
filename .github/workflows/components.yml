@@ -1,0 +1,35 @@
+# Publishes @kevinschaich/components when its version changes. Bump the version in
+# packages/components/package.json to release; Renovate picks it up in every project.
+name: Publish components
+
+on:
+  push:
+    branches: [master]
+    paths: [packages/components/**]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: packages/components
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - name: Publish if this version is new
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if npm view "@kevinschaich/components@$version" version >/dev/null 2>&1; then
+            echo "$version is already published"
+          else
+            npm publish --provenance --access public
+          fi

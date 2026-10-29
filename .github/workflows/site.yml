@@ -1,0 +1,19 @@
+# Rebuilds kevinschaich.com hourly so new projects, README edits and new deployments show up without a
+# runtime server: the registry is read only at build time.
+name: Rebuild site
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger the Vercel deploy hook
+        env:
+          HOOK: ${{ secrets.SITE_DEPLOY_HOOK }}
+        run: |
+          [ -n "$HOOK" ] || { echo "::warning::SITE_DEPLOY_HOOK isn't set; skipping"; exit 0; }
+          curl -fsS -X POST "$HOOK" >/dev/null

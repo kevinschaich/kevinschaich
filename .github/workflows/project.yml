@@ -1,0 +1,57 @@
+# Shared CI for every project with a demo: checks only, no secrets. Vercel's Git integration deploys
+# each push; the hub creates and links the Vercel project when it first discovers the repo.
+name: Project
+
+on:
+  workflow_call:
+    inputs:
+      html:
+        description: Source HTML page to check for title, byline and OG tags
+        type: string
+        default: index.html
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Scan for leaked secrets
+        run: |
+          curl -sSL https://github.com/gitleaks/gitleaks/releases/download/v8.21.2/gitleaks_8.21.2_linux_x64.tar.gz | tar -xz gitleaks
+          ./gitleaks git --redact --verbose .
+
+      - name: Check vercel.json is static-only
+        run: |
+          fail() { echo "::error::$1"; exit 1; }
+          [ -f vercel.json ] || fail "vercel.json is missing; copy templates/project/vercel.json from kevinschaich/kevinschaich"
+          jq -e '(.functions // .crons // .middleware // .routes) == null' vercel.json >/dev/null || fail "vercel.json declares functions, crons, middleware or routes; projects are static only"
+          if find . -path ./node_modules -prune -o \( -name 'middleware.[jt]s' -o -path './api/*' \) -print | grep -q .; then
+            fail "No middleware or api/ functions; projects are static only"
+          fi
+          template=$(curl -fsSL https://raw.githubusercontent.com/kevinschaich/kevinschaich/master/templates/project/vercel.json)
+          drift=$(jq -rn --argjson a "$template" --slurpfile b vercel.json '[$a | to_entries[] | select($b[0][.key] != .value) | .key] | join(", ")')
+          [ -z "$drift" ] || echo "::warning::vercel.json differs from templates/project/vercel.json in: $drift"
+
+      - uses: oven-sh/setup-bun@v2
+        if: hashFiles('package.json') != ''
+      - name: Build
+        if: hashFiles('package.json') != ''
+        run: bun install --frozen-lockfile && bun run build
+
+      - name: Check project.json, title, byline and OG tags
+        env:
+          PAGE: ${{ inputs.html }}
+        run: |
+          fail() { echo "::error::$1"; exit 1; }
+          [ -f project.json ] || fail "project.json is missing"
+          slug=$(jq -er .slug project.json) || fail "project.json needs a slug"
+          name=$(jq -er .name project.json) || fail "project.json needs a name"
+          [ -f "$PAGE" ] || fail "$PAGE not found"
+          grep -qF "<title>$name | by kevinschaich</title>" "$PAGE" || fail "Title must be '$name | by kevinschaich'"
+          grep -qE 'ks-byline|data-ks-byline|bylineHTML|Byline' "$PAGE" || fail "Shared byline missing"
+          grep -qF "https://kevinschaich.com/og/$slug.png" "$PAGE" || fail "og:image must be https://kevinschaich.com/og/$slug.png"
+          grep -qF "https://kevinschaich.com/icon/$slug.png" "$PAGE" || fail "Favicon must be https://kevinschaich.com/icon/$slug.png"
+          if grep -qE '(src|href)="/[^/]' "$PAGE"; then fail "Use relative asset paths; pages are served under /project/$slug/"; fi

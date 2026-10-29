@@ -1,0 +1,42 @@
+{
+    "name": "@kevinschaich/components",
+    "version": "0.1.0",
+    "description": "Shared branding and components for Kevin Schaich's projects",
+    "license": "MIT",
+    "type": "module",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kevinschaich/kevinschaich.git",
+        "directory": "packages/components"
+    },
+    "exports": {
+        ".": {
+            "types": "./src/index.d.ts",
+            "default": "./src/index.js"
+        },
+        "./styles.css": "./src/styles.css",
+        "./brand.js": "./src/brand.js",
+        "./typeset.css": "./src/typeset.css"
+    },
+    "files": [
+        "src"
+    ],
+    "sideEffects": [
+        "*.css",
+        "./src/brand.js"
+    ],
+    "peerDependencies": {
+        "react": ">=18"
+    },
+    "peerDependenciesMeta": {
+        "react": {
+            "optional": true
+        }
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "update-typeset": "curl -fsSL https://ui.shadcn.com/typeset.css -o src/typeset.css"
+    }
+}

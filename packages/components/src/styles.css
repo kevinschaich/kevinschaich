@@ -1,0 +1,83 @@
+/* Shared tokens (shadcn zinc, dark), fonts and the typeset preset. Works in plain HTML pages and alongside
+   shadcn/Tailwind: variable names match shadcn's. Tokens sit on :where(:root) so a host page's own :root
+   wins; wrap content in .ks-theme to force them. Pair with typeset.css (vendored, unmodified). */
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:where(:root),
+.ks-theme {
+    --background: oklch(0.141 0.005 285.823);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.21 0.006 285.885);
+    --card-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.274 0.006 286.033);
+    --muted-foreground: oklch(0.705 0.015 286.067);
+    --border: oklch(1 0 0 / 10%);
+    --ring: oklch(0.552 0.016 285.938);
+    --radius: 0.5rem;
+
+    /* Fonts come only from these. A project's project.json `typeset` overrides them via /kit/v1/project/<slug>.css. */
+    --font-sans: 'Public Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-heading: var(--font-sans);
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    /* Tailwind 4 names, which typeset.css reads. */
+    --color-foreground: var(--foreground);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-border: var(--border);
+}
+
+.ks-theme {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+}
+
+/* Kevin's typeset preset: typeset's defaults with Public Sans and JetBrains Mono. */
+.typeset-kevinschaich {
+    --typeset-font-body: var(--font-sans);
+    --typeset-font-heading: var(--font-heading);
+    --typeset-font-mono: var(--font-mono);
+    --typeset-size: var(--ks-typeset-size, 15px);
+    --typeset-leading: var(--ks-typeset-leading, 1.75);
+    --typeset-flow: var(--ks-typeset-flow, 1.25em);
+    max-width: var(--ks-typeset-measure, 37em);
+}
+
+/* Heading anchors (rendered READMEs wrap headings in a self-link). */
+.typeset-kevinschaich .heading-anchor {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* GitHub alerts (> [!NOTE] …) inside typeset blockquotes. */
+.markdown-alert {
+    border-inline-start: 3px solid var(--ks-alert, var(--border)) !important;
+}
+.markdown-alert-title {
+    font-weight: 600;
+    color: var(--ks-alert);
+}
+.markdown-alert-note { --ks-alert: #60a5fa; }
+.markdown-alert-tip { --ks-alert: #4ade80; }
+.markdown-alert-important { --ks-alert: #c084fc; }
+.markdown-alert-warning { --ks-alert: #facc15; }
+.markdown-alert-caution { --ks-alert: #f87171; }
+
+/* Byline: "by kevinschaich · view all projects". */
+.ks-byline {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    color: var(--muted-foreground);
+    white-space: nowrap;
+}
+.ks-byline a {
+    color: inherit;
+    text-decoration: none;
+}
+.ks-byline a:hover {
+    color: var(--foreground);
+    text-decoration: underline;
+}
+.ks-byline a:first-child {
+    font-weight: 600;
+}
