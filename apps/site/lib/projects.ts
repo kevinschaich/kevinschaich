@@ -23,7 +23,8 @@ export type Project = {
     typeset: Typeset
 }
 
-const OWNER = 'kevinschaich'
+/** Accounts whose repos can be listed: Kevin's own, plus orgs he runs. Only add owners Kevin controls. */
+const OWNERS = ['kevinschaich', 'darkgrade']
 const TOPIC = 'kevinschaich-project'
 const TTL_MS = 5 * 60 * 1000
 
@@ -47,7 +48,7 @@ export async function getProject(slug: string) {
 
 async function load(): Promise<Project[]> {
     const gh = { Accept: 'application/vnd.github+json', ...auth(process.env.GITHUB_TOKEN) }
-    const search = await json(`https://api.github.com/search/repositories?q=topic:${TOPIC}+user:${OWNER}&per_page=100`, gh)
+    const search = await json(`https://api.github.com/search/repositories?q=topic:${TOPIC}+${OWNERS.map((o) => `user:${o}`).join('+')}&per_page=100`, gh)
     const projects = await Promise.all(
         search.items.map(async (repo: any) => {
             // Listed projects are public, so raw files need no token and don't count against API limits.

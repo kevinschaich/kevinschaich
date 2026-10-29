@@ -46,7 +46,8 @@ deploys every push. No tokens or secrets in project repos. Beyond that one impor
 anything in the Vercel dashboard: if something seems to need it, put it in `vercel.json` or ask Kevin.
 
 - **Public repo.** Every project listed on /projects is a public repository.
-- **GitHub topic** `kevinschaich-project`. This alone lists the repo on https://kevinschaich.com/projects
+- **GitHub topic** `kevinschaich-project`, on a repo owned by `kevinschaich` or the `darkgrade` org (the
+  owners the hub searches; see `OWNERS` in `apps/site/lib/projects.ts`). This alone lists the repo on https://kevinschaich.com/projects
   and gives it a page at `https://kevinschaich.com/project/<slug>/`: the live demo, or for a project with
   no demo, its README rendered in the shared style.
 - **`project.json`** at the repo root:
