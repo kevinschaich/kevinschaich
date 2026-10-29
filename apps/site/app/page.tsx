@@ -10,7 +10,6 @@ const DARKGRADE_LINKS = [
 ]
 
 const PERSONAL_LINKS = [
-    { label: 'Projects', href: '/projects' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/kevinschaich/' },
     { label: 'X', href: 'https://x.com/kevinschaich' },
 ]
@@ -33,6 +32,12 @@ export default function Home() {
         <>
             <WordmarkSprite />
             <BackgroundVideo />
+
+            <nav aria-label="Projects" className="fixed top-0 right-0 z-[3] p-[clamp(16px,3vw,28px)]">
+                <a href="/projects" className={TEXT_LINK}>
+                    All Projects &rarr;
+                </a>
+            </nav>
 
             <main className="relative z-[2] flex min-h-dvh flex-col">
                 <div className="mx-auto flex w-full max-w-[420px] flex-1 flex-col items-center justify-center px-4 py-[clamp(40px,7vh,80px)]">
@@ -73,7 +78,8 @@ export default function Home() {
                             <a
                                 key={label}
                                 href={href}
-                                {...(href.startsWith('/') ? {} : { target: '_blank', rel: 'noopener me' })}
+                                target="_blank"
+                                rel="noopener me"
                                 className={TEXT_LINK}
                             >
                                 {label}
