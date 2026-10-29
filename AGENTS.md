@@ -33,7 +33,7 @@ If something genuinely seems to need runtime execution, ask Kevin first.
   works both at its own vercel.app URL and under `kevinschaich.com/project/<slug>/`.
 - **Components:** never install shadcn or Radix directly. Import from `@kevinschaich/components`, which
   wraps shadcn. If a component is missing, add it to
-  [`packages/components`](https://github.com/kevinschaich/kevinschaich/tree/master/packages/components) in
+  [`packages/components`](https://github.com/kevinschaich/kevinschaich/tree/main/packages/components) in
   the hub first, then use it.
 - **Turbo** only in the hub monorepo, never in single-app project repos.
 - Existing no-build pages (Backroads) keep using the runtime kit (below) until they need React components.
@@ -50,8 +50,11 @@ anything in the Vercel dashboard: if something seems to need it, put it in `verc
   and gives it a page at `https://kevinschaich.com/project/<slug>/`: the live demo, or for a project with
   no demo, its README rendered in the shared style.
 - **`project.json`** at the repo root:
-  `{ "slug": "backroads", "name": "Backroads", "tagline": "…", "accent": "#22c55e", "emoji": "🛣️" }`.
-  `slug` is lowercase-kebab and is also the Vercel project name. Optional:
+  `{ "slug": "backroads", "name": "Backroads", "tagline": "Find the roads worth driving, anywhere.", "icon": "route" }`.
+  `slug` is lowercase-kebab and is also the Vercel project name. `icon` is a [Lucide](https://lucide.dev/icons)
+  name; the hub renders it white on black for the favicon, the project page, `/projects` and the OG card
+  (unknown or missing → `box`, and the check warns). There are no per-project colors: the primary color is
+  white everywhere, and `accent` or `emoji` are ignored. Optional:
   - `"url": "https://<slug>.vercel.app"`: the deployed demo, which `/project/<slug>/` proxies. Add it after
     the first deploy.
   - `"demo": false`: no live demo; the page renders the README. (Without `project.json` the hub uses the
@@ -59,7 +62,7 @@ anything in the Vercel dashboard: if something seems to need it, put it in `verc
   - `"typeset": { "body": "…", "heading": "…", "mono": "…", "size": "15px", "leading": 1.75, "flow": "1.25em", "measure": "37em" }`:
     typefaces (Google Fonts names) and typeset's knobs. Change nothing else about type.
 - **`vercel.json`**: copy
-  [`templates/project/vercel.json`](https://github.com/kevinschaich/kevinschaich/blob/master/templates/project/vercel.json)
+  [`templates/project/vercel.json`](https://github.com/kevinschaich/kevinschaich/blob/main/templates/project/vercel.json)
   unchanged. Add a SPA fallback rewrite (`/(.*)` → `/index.html`) only if the app has client-side routes.
   No `functions`, `crons` or middleware; the shared workflow fails if it finds any.
 - **`.github/workflows/checks.yml`**:
@@ -71,7 +74,7 @@ anything in the Vercel dashboard: if something seems to need it, put it in `verc
     pull_request:
   jobs:
     checks:
-      uses: kevinschaich/kevinschaich/.github/workflows/project.yml@master
+      uses: kevinschaich/kevinschaich/.github/workflows/project.yml@main
   ```
   Checks only, no secrets: gitleaks, build, static-only `vercel.json` (and drift from the template), title,
   byline and OG tags.
@@ -89,6 +92,7 @@ anything in the Vercel dashboard: if something seems to need it, put it in `verc
   every project:
   ```html
   <link rel="icon" href="https://kevinschaich.com/icon/<slug>.png">
+  <link rel="apple-touch-icon" href="https://kevinschaich.com/icon/<slug>-180.png">
   <meta property="og:title" content="<Name> | by kevinschaich">
   <meta property="og:description" content="<tagline>">
   <meta property="og:image" content="https://kevinschaich.com/og/<slug>.png">
@@ -96,9 +100,19 @@ anything in the Vercel dashboard: if something seems to need it, put it in `verc
   <meta name="twitter:card" content="summary_large_image">
   ```
 
+## One description everywhere
+
+`tagline` in `project.json` is the project's only description: one benefit-first line of 60 characters or
+fewer that says why you'd open it, not what it does ("Find the roads worth driving, anywhere.", not "A
+MapLibre map of scenic roads"). It is used verbatim in all four places: the README's first line under the
+heading, `og:description`, the OG card image (automatic) and the GitHub repo description, which Kevin sets
+with `gh repo edit --description "<tagline>"`. The shared check fails when the README line or
+`og:description` differs from `project.json`.
+
 ## README
 
-Brief and in this shape:
+Brief and in this shape. "Try it" always points at `kevinschaich.com/project/<slug>/`, never `*.vercel.app`;
+the hub drops that line when it renders the README as the project page.
 
 ```md
 [![<Name> by kevinschaich](https://kevinschaich.com/og/<slug>.png)](https://kevinschaich.com/project/<slug>/)
@@ -131,7 +145,7 @@ Starts with this line, then project-specific notes, then an **Approved exception
   and `import '@kevinschaich/components/styles.css'`. Add a `renovate.json` with
   `{ "extends": ["github>kevinschaich/kevinschaich//.github/renovate-project-preset"] }` so Renovate
   auto-merges updates.
-- No-build pages: load the runtime kit, which always matches `master`:
+- No-build pages: load the runtime kit, which always matches `main`:
   ```html
   <link rel="stylesheet" href="https://kevinschaich.com/kit/v1/brand.css">
   <link rel="stylesheet" href="https://kevinschaich.com/kit/v1/typeset.css">

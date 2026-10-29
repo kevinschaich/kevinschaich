@@ -24,6 +24,8 @@ export async function renderReadme(project: Project) {
         }
     }
     if (markdown === null) return null
+    // This page is the project page, so a "Try it →" link would only point back at itself.
+    markdown = markdown.replace(/^.*\[Try it[^\]]*\]\([^)]*\).*\n?/gim, '')
     const file = await unified()
         .use(remarkParse)
         .use(remarkGfm)

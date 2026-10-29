@@ -10,8 +10,8 @@ export type Project = {
     slug: string
     name: string
     tagline: string
-    accent: string
-    emoji?: string
+    /** Lucide icon name (lucide.dev); unknown or missing renders as `box`. */
+    icon?: string
     repo: string
     fullName: string
     repoId: number
@@ -59,8 +59,7 @@ async function load(): Promise<Project[]> {
                 slug: meta.slug,
                 name: meta.name,
                 tagline: meta.tagline ?? repo.description ?? '',
-                accent: meta.accent ?? '#a1a1aa',
-                emoji: meta.emoji,
+                icon: meta.icon,
                 repo: repo.html_url,
                 fullName: repo.full_name,
                 repoId: repo.id,

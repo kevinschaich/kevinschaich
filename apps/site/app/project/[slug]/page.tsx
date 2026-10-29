@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         title,
         description: project.tagline,
         alternates: { canonical: `/project/${project.slug}/` },
-        icons: { icon: `/icon/${project.slug}.png` },
+        icons: { icon: `/icon/${project.slug}.png`, apple: `/icon/${project.slug}-180.png` },
         openGraph: { title, description: project.tagline, images: [image], url: `https://kevinschaich.com/project/${project.slug}/` },
         twitter: { card: 'summary_large_image', title, description: project.tagline, images: [image], creator: '@kevinschaich' },
     }
@@ -41,9 +41,12 @@ export default async function ProjectReadme({ params }: Props) {
         <div className="ks-theme relative z-[2] min-h-dvh">
             <link rel="stylesheet" href={`/kit/v1/project/${project.slug}.css`} />
             <main className="mx-auto w-full max-w-[calc(37em+2rem)] px-4 py-[clamp(32px,6vh,64px)]" style={{ fontSize: 15 }}>
-                <nav className="mb-8 flex items-baseline justify-between gap-4 text-sm">
-                    <span className="ks-byline">
+                <nav className="mb-8 flex items-center justify-between gap-4 text-sm">
+                    <span className="flex items-center gap-3">
+                        <img src={`/icon/${project.slug}.png`} alt="" width={28} height={28} className="rounded-[calc(var(--radius)*0.75)]" />
+                        <span className="ks-byline">
                         <a href="/">by kevinschaich</a> · <a href="/projects">view all projects</a>
+                        </span>
                     </span>
                     <a
                         href={project.repo}

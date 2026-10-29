@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { getProjects } from '@/lib/projects'
+import '@kevinschaich/components/styles.css'
 
 export const dynamic = 'force-static'
 
@@ -9,34 +10,31 @@ export const metadata: Metadata = {
     alternates: { canonical: '/projects' },
 }
 
+/** Every project as its OG card: the image carries the name, byline and tagline. */
 export default async function Projects() {
     const projects = await getProjects()
     return (
-        <main className="relative z-[2] mx-auto flex min-h-dvh w-full max-w-[640px] flex-col px-4 py-[clamp(40px,7vh,80px)]">
-            <a href="/" className="text-label tracking-meta text-ink-55 uppercase hover:text-ink">
-                ← kevinschaich
-            </a>
-            <h1 className="mt-10 font-serif text-[clamp(2rem,8vw,2.75rem)] leading-[.94] tracking-[-.015em]">Projects</h1>
-
-            <ul className="mt-10 flex flex-col gap-[14px]">
-                {projects.map((p) => (
-                    <li key={p.slug}>
-                        <a
-                            href={`/project/${p.slug}/`}
-                            className="panel flex items-center gap-4 rounded-2xl border border-hair p-5 transition-colors duration-300 hover:border-gold"
-                        >
-                            <img src={`/icon/${p.slug}.png`} alt="" width={40} height={40} className="rounded-lg" />
-                            <span className="flex flex-col">
-                                <span className="text-lede" style={{ color: p.accent }}>
-                                    {p.name}
-                                </span>
-                                <span className="text-label text-ink-55">{p.tagline}</span>
-                            </span>
-                        </a>
-                    </li>
-                ))}
-                {projects.length === 0 && <li className="text-ink-55">Nothing here yet.</li>}
-            </ul>
-        </main>
+        <div className="ks-theme relative z-[2] min-h-dvh">
+            <main className="mx-auto w-full max-w-6xl px-4 py-[clamp(32px,6vh,64px)]">
+                <nav className="mb-8 text-sm">
+                    <span className="ks-byline">
+                        <a href="/">by kevinschaich</a> · <a href="/projects">view all projects</a>
+                    </span>
+                </nav>
+                <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {projects.map((p) => (
+                        <li key={p.slug}>
+                            <a
+                                href={`/project/${p.slug}/`}
+                                className="block overflow-hidden rounded-[var(--radius)] border border-[var(--border)] transition-colors hover:border-[var(--ring)]"
+                            >
+                                <img src={`/og/${p.slug}.png`} alt={`${p.name}: ${p.tagline}`} width={1200} height={630} className="block aspect-[1200/630] w-full" />
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+                {projects.length === 0 && <p className="text-[var(--muted-foreground)]">Nothing here yet.</p>}
+            </main>
+        </div>
     )
 }

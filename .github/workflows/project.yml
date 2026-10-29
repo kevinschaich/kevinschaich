@@ -31,7 +31,7 @@ jobs:
           if find . -path ./node_modules -prune -o \( -name 'middleware.[jt]s' -o -path './api/*' \) -print | grep -q .; then
             fail "No middleware or api/ functions; projects are static only"
           fi
-          template=$(curl -fsSL https://raw.githubusercontent.com/kevinschaich/kevinschaich/master/templates/project/vercel.json)
+          template=$(curl -fsSL https://raw.githubusercontent.com/kevinschaich/kevinschaich/main/templates/project/vercel.json)
           drift=$(jq -rn --argjson a "$template" --slurpfile b vercel.json '[$a | to_entries[] | select($b[0][.key] != .value) | .key] | join(", ")')
           [ -z "$drift" ] || echo "::warning::vercel.json differs from templates/project/vercel.json in: $drift"
 
@@ -55,3 +55,19 @@ jobs:
           grep -qF "https://kevinschaich.com/og/$slug.png" "$PAGE" || fail "og:image must be https://kevinschaich.com/og/$slug.png"
           grep -qF "https://kevinschaich.com/icon/$slug.png" "$PAGE" || fail "Favicon must be https://kevinschaich.com/icon/$slug.png"
           if grep -qE '(src|href)="/[^/]' "$PAGE"; then fail "Use relative asset paths; pages are served under /project/$slug/"; fi
+
+      - name: Check the tagline and icon
+        env:
+          PAGE: ${{ inputs.html }}
+        run: |
+          fail() { echo "::error::$1"; exit 1; }
+          tagline=$(jq -er .tagline project.json) || fail "project.json needs a tagline"
+          [ ${#tagline} -le 60 ] || echo "::warning::tagline is ${#tagline} characters; keep it to 60 or fewer"
+          # The README's first line under the "# <Name>" heading is the tagline.
+          readme=$(awk '/^# /{h=1; next} h && NF {print; exit}' README.md)
+          [ "$readme" = "$tagline" ] || fail "README tagline '$readme' must match project.json tagline '$tagline'"
+          desc=$(grep -oE '<meta[^>]+property="og:description"[^>]*>' "$PAGE" | sed -E 's/.*content="([^"]*)".*/\1/')
+          [ "$desc" = "$tagline" ] || fail "og:description '$desc' must match project.json tagline '$tagline'"
+          if grep -qE '\]\(https://[^)]*\.vercel\.app' README.md; then fail "README links must point at https://kevinschaich.com/project/<slug>/, not *.vercel.app"; fi
+          icon=$(jq -r '.icon // empty' project.json)
+          curl -fsI "https://unpkg.com/lucide-static/icons/$icon.svg" >/dev/null 2>&1 || echo "::warning::'$icon' isn't a Lucide icon (lucide.dev/icons); the hub falls back to box"
