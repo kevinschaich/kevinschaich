@@ -6,17 +6,35 @@ const FLOW = BODY * 1.25
 // shadcn zinc (dark): --background, --foreground, --muted-foreground, --border.
 const ZINC = { background: '#09090b', foreground: '#fafafa', muted: '#a1a1aa', border: '#27272a' }
 
-/** Icon, name, tagline, then a muted footer ("by kevinschaich"), set like a README. */
-export function OgCard({ name, tagline, iconImage, iconSize = 84, footer = 'by kevinschaich' }: { name: string; tagline?: string; iconImage: string; iconSize?: number; footer?: string }) {
+/**
+ * Icon, name, tagline, then a muted footer ("by kevinschaich"), set like a README. With `background` (a screenshot of
+ * the app in use), the screenshot fills the card and the text sits on a dark fade from the left.
+ */
+export function OgCard({
+    name,
+    tagline,
+    iconImage,
+    iconSize = 84,
+    footer = 'by kevinschaich',
+    background,
+}: {
+    name: string
+    tagline?: string
+    iconImage: string
+    iconSize?: number
+    footer?: string
+    background?: string
+}) {
     return (
         <div
             style={{
+                position: 'relative',
                 width: '100%',
                 height: '100%',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
-                padding: '48px 96px',
+                padding: background ? '48px 72px' : '48px 96px',
                 backgroundColor: ZINC.background,
                 fontFamily: 'body',
                 fontSize: BODY,
@@ -24,11 +42,21 @@ export function OgCard({ name, tagline, iconImage, iconSize = 84, footer = 'by k
                 color: ZINC.foreground,
             }}
         >
+            {background && <img src={background} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />}
+            {background && (
+                <div
+                    style={{
+                        position: 'absolute',
+                        inset: 0,
+                        backgroundImage: `linear-gradient(90deg, ${ZINC.background}f2 0%, ${ZINC.background}d9 34%, ${ZINC.background}66 58%, ${ZINC.background}00 78%)`,
+                    }}
+                />
+            )}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 88, height: 88, flexShrink: 0, marginBottom: FLOW, background: '#000', borderRadius: 16, border: `2px solid ${ZINC.border}`, overflow: 'hidden' }}>
                 <img src={iconImage} width={iconSize} height={iconSize} alt="" />
             </div>
             <div style={{ fontFamily: 'heading', fontSize: BODY * 1.75, fontWeight: 600, lineHeight: 1.3, flexShrink: 0 }}>{name}</div>
-            {tagline && <div style={{ marginTop: BODY, flexShrink: 0 }}>{tagline}</div>}
+            {tagline && <div style={{ marginTop: BODY, flexShrink: 0, maxWidth: background ? 560 : undefined }}>{tagline}</div>}
             <div style={{ marginTop: FLOW, flexShrink: 0, color: ZINC.muted }}>{footer}</div>
         </div>
     )

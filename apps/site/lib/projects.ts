@@ -24,6 +24,8 @@ export type Project = {
     url: string | null
     /** Live demo (proxied) rather than the rendered README. */
     demo: boolean
+    /** A screenshot of the app in use (project.json `screenshot`, a path in the repo), drawn behind its OG card. */
+    screenshot?: string
     typeset: Typeset
 }
 
@@ -88,6 +90,7 @@ async function load(): Promise<Project[]> {
                 defaultBranch: repo.default_branch,
                 url,
                 demo: url !== null,
+                screenshot: typeof meta.screenshot === 'string' ? `${raw(repo)}${meta.screenshot.replace(/^\.?\//, '')}` : undefined,
                 typeset: meta.typeset ?? {},
             } satisfies Project
         }),
