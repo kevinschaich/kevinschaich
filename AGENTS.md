@@ -115,6 +115,13 @@ anything in the Vercel dashboard: if something seems to need it, put it in `verc
   <meta name="twitter:card" content="summary_large_image">
   ```
 
+## Copy
+
+Write for people using the thing, not for its builder. Say what to do and what happened, plainly. Never put
+counts, timings, sizes or internals in the UI ("31,518 indexed courses · 1 ms", "scored in your browser from
+open data", "WebGPU engine with CDLOD terrain"), and never describe that it works or how well: people only
+care whether it does. Technical detail belongs in the README or docs, if anywhere.
+
 ## Name and tagline
 
 Every project gets a short, fun **name** (one or two words) that's memorable rather than descriptive:
