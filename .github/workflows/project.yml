@@ -51,7 +51,8 @@ jobs:
           name=$(jq -er .name project.json) || fail "project.json needs a name"
           [ -f "$PAGE" ] || fail "$PAGE not found"
           grep -qF "<title>$name | by kevinschaich</title>" "$PAGE" || fail "Title must be '$name | by kevinschaich'"
-          grep -qE 'ks-byline|data-ks-byline|bylineHTML|Byline' "$PAGE" || fail "Shared byline missing"
+          # React projects render <Byline /> from src/; no-build pages put it in the HTML.
+          grep -qE 'ks-byline|data-ks-byline|bylineHTML|Byline' "$PAGE" || grep -rqE '<Byline' src 2>/dev/null || fail "Shared byline missing"
           grep -qF "https://kevinschaich.com/og/$slug.png" "$PAGE" || fail "og:image must be https://kevinschaich.com/og/$slug.png"
           grep -qF "https://kevinschaich.com/icon/$slug.png" "$PAGE" || fail "Favicon must be https://kevinschaich.com/icon/$slug.png"
           if grep -qE '(src|href)="/[^/]' "$PAGE"; then fail "Use relative asset paths; pages are served under /project/$slug/"; fi
