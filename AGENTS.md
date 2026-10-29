@@ -35,6 +35,11 @@ If something genuinely seems to need runtime execution, ask Kevin first.
   wraps shadcn. If a component is missing, add it to
   [`packages/components`](https://github.com/kevinschaich/kevinschaich/tree/main/packages/components) in
   the hub first, then use it.
+- **Node 24 or newer, everywhere:** the hub, every project and `@kevinschaich/components`. Set
+  `"engines": { "node": ">=24" }` in each `package.json` (Vercel picks its Node version from this), use
+  `node-version: 24` or later in CI, and only use GitHub Actions versions that run on Node 24 (e.g.
+  `actions/checkout@v7`, `actions/setup-node@v7`). Never Node 20 or 22, and never an action that still
+  targets Node 20.
 - **Turbo** only in the hub monorepo, never in single-app project repos.
 - Existing no-build pages (Backroads) keep using the runtime kit (below) until they need React components.
 

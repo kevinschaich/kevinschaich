@@ -18,13 +18,13 @@ jobs:
       run:
         working-directory: packages/components
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
       - run: bun install
       - run: bunx shadcn@latest add --all --overwrite --yes
       - run: node scripts/update-theme.mjs
       - run: bun run build && bun run typecheck
-      - uses: peter-evans/create-pull-request@v7
+      - uses: peter-evans/create-pull-request@v8
         with:
           branch: update-shadcn
           title: Update shadcn components and theme

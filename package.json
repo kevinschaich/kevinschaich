@@ -1,6 +1,12 @@
 {
     "name": "kevinschaich",
     "private": true,
-    "workspaces": ["apps/*", "packages/*"],
-    "packageManager": "bun@1.3.14"
+    "workspaces": [
+        "apps/*",
+        "packages/*"
+    ],
+    "packageManager": "bun@1.3.14",
+    "engines": {
+        "node": ">=24"
+    }
 }

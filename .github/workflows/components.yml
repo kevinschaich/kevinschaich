@@ -18,14 +18,14 @@ jobs:
       run:
         working-directory: packages/components
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: 22
+          node-version: 24
           registry-url: https://registry.npmjs.org
       - uses: oven-sh/setup-bun@v2
       - run: bun install && bun run build
-      # Trusted publishing (OIDC) needs npm 11.5.1+; Node 22 ships npm 10.
+      # Trusted publishing (OIDC) needs npm 11.5.1+.
       - run: npm install -g npm@latest
       # Publishes through npm trusted publishing: npm verifies this workflow's GitHub identity (id-token
       # above), so there's no npm token to store or rotate. Configured on npmjs.com under the package's
