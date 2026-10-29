@@ -27,6 +27,10 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "::notice::NPM_TOKEN isn't set, so @kevinschaich/components isn't published yet. Add the secret to publish."
+            exit 0
+          fi
           version=$(node -p "require('./package.json').version")
           if npm view "@kevinschaich/components@$version" version >/dev/null 2>&1; then
             echo "$version is already published"
