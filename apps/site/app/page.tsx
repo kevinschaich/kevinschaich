@@ -33,7 +33,7 @@ export default function Home() {
             <WordmarkSprite />
             <BackgroundVideo />
 
-            <nav aria-label="Projects" className="fixed top-0 right-0 z-[3] p-[clamp(16px,3vw,28px)]">
+            <nav aria-label="Projects" className="pointer-events-none absolute inset-x-0 top-0 z-[3] mx-auto flex max-w-[1040px] justify-end px-4 pt-[clamp(24px,8vh,96px)] *:pointer-events-auto">
                 <a href="/projects" className={TEXT_LINK}>
                     All Projects &rarr;
                 </a>
