@@ -94,8 +94,9 @@ anything in the Vercel dashboard: if something seems to need it, put it in `verc
   project's own GitHub repo, and https://kevinschaich.com/projects. Use the shared byline, never a
   hand-rolled copy, and always pass the project's repo (`<Byline repo="kevinschaich/<repo>" />`, or
   `<span data-ks-byline="kevinschaich/<repo>"></span>` on no-build pages).
-- **Data sources**: every project that uses outside data, tiles, icons or art credits each source in a
-  "Data sources" dialog (shadcn `Dialog`): what it is, where it's from (linked), and its license. Interactive
+- **Data sources**: every project that uses outside data, tiles, icons or art credits each source with the shared
+  `<DataSources sources={…} />` from `@kevinschaich/components`: what it is, where it's from (linked), and its
+  license. Interactive
   apps open it from a muted lucide `Info` ("i") button that sits with the app's own controls (map zoom
   buttons, graph controls, game camera tools), never a text link or banner. The README's credits section
   lists the same sources. Credit data, tiles, icons and art only, never software packages or libraries.
@@ -198,6 +199,7 @@ Starts with this line, then project-specific notes, then an **Approved exception
   ```
   Put `<span data-ks-byline="kevinschaich/<repo>"></span>` where the byline goes, or call
   `window.kevinschaich.bylineHTML("kevinschaich/<repo>")`.
+- **Readings** (a label over a number and unit, like "Carry 87 yd") use `Stat`; searchable pickers use `Command`.
 - **Switches:** every one-of-a-few choice (view tabs, modes, tiers, basemaps) uses `Tabs` / `TabsList` /
   `TabsTrigger`, so they all match (customized: no border on the active tab).
 - Look: shadcn's zinc theme, dark, with shadcn's default radius (`--radius: 0.625rem`).
