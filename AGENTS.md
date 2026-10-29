@@ -88,6 +88,9 @@ anything in the Vercel dashboard: if something seems to need it, put it in `verc
 - **Byline**: "by kevinschaich" → https://kevinschaich.com and "view all projects" →
   https://kevinschaich.com/projects. Use the shared byline, never a hand-rolled copy.
 - **Relative asset paths only** (`worker.js`, not `/worker.js`).
+- **Use the kevinschaich.com address.** Third-party data hosts may block `*.vercel.app` origins (Overture's
+  tiles.overturemaps.org answers 403 to them but serves kevinschaich.com), so always test and link
+  `https://kevinschaich.com/project/<slug>/`, never the vercel.app URL.
 - **OG image and favicon** come from the hub, never from the repo, so changing the generator updates
   every project:
   ```html
