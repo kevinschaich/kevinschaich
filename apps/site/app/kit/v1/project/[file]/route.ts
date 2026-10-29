@@ -9,7 +9,7 @@ export async function GET(_: Request, { params }: { params: Promise<{ file: stri
         headers: {
             'Content-Type': 'text/css; charset=utf-8',
             'Access-Control-Allow-Origin': '*',
-            'Cache-Control': 'public, max-age=300, stale-while-revalidate=86400',
+            'Cache-Control': 'public, max-age=300, stale-while-revalidate=3600',
         },
     })
 }

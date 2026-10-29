@@ -22,7 +22,7 @@ export function brandImageRoute(render: (p: Project, size: Size) => React.ReactE
         return new ImageResponse(render(project, dims), {
             ...dims,
             fonts,
-            headers: { 'Cache-Control': 'public, max-age=300, s-maxage=3600, stale-while-revalidate=86400' },
+            headers: { 'Cache-Control': 'public, max-age=300, s-maxage=600, stale-while-revalidate=3600' },
         })
     }
 }

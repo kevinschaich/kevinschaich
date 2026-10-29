@@ -15,10 +15,11 @@ const nextConfig: NextConfig = {
         ])
     },
     async headers() {
-        // Projects on other origins import the runtime kit as ES modules, which needs CORS.
+        // Projects on other origins import the runtime kit as ES modules, which needs CORS. Short caches so a
+        // kit change reaches every project within the hour.
         const cors = [
             { key: 'Access-Control-Allow-Origin', value: '*' },
-            { key: 'Cache-Control', value: 'public, max-age=300, stale-while-revalidate=86400' },
+            { key: 'Cache-Control', value: 'public, max-age=300, stale-while-revalidate=3600' },
         ]
         return [
             { source: '/kit/:path*', headers: cors },
