@@ -33,15 +33,16 @@ export default function Home() {
             <WordmarkSprite />
             <BackgroundVideo />
 
-            <nav aria-label="Projects" className="pointer-events-none absolute inset-x-0 top-0 z-[3] mx-auto flex max-w-[1040px] justify-end px-4 pt-[clamp(24px,8vh,96px)] *:pointer-events-auto">
-                <a href="/projects" className={TEXT_LINK}>
-                    All Projects &rarr;
-                </a>
-            </nav>
-
             <main className="relative z-[2] flex min-h-dvh flex-col">
                 <div className="mx-auto flex w-full max-w-[420px] flex-1 flex-col items-center justify-center px-4 py-[clamp(40px,7vh,80px)]">
-                    <header className="flex flex-col items-center text-center">
+                    <header className="relative flex w-full flex-col items-center text-center">
+                        {/* The top-right corner of the center section, level with "I'm building:"; its own row on phones. */}
+                        <nav aria-label="Projects" className="mb-10 self-end sm:absolute sm:top-0 sm:-right-[110px] sm:mb-0">
+                            <a href="/projects" className={TEXT_LINK}>
+                                All Projects &rarr;
+                            </a>
+                        </nav>
+
                         <p className={`mb-12 ${LABEL}`}>I&rsquo;m building:</p>
 
                         <a href="https://darkgrade.com" aria-label="Darkgrade" className="block text-ink">
