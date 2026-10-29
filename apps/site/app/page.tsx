@@ -36,8 +36,9 @@ export default function Home() {
             <main className="relative z-[2] flex min-h-dvh flex-col">
                 <div className="mx-auto flex w-full max-w-[420px] flex-1 flex-col items-center justify-center px-4 py-[clamp(40px,7vh,80px)]">
                     <header className="relative flex w-full flex-col items-center text-center">
-                        {/* The top-right corner of the center section, level with "I'm building:"; its own row on phones. */}
-                        <nav aria-label="Projects" className="mb-10 self-end sm:absolute sm:top-0 sm:-right-[110px] sm:mb-0">
+                        {/* The top-right corner of the center section, level with "I'm building:" (same line box) with its left edge on
+                            the buttons' right edge; its own row on phones. */}
+                        <nav aria-label="Projects" className={`mb-10 self-end sm:absolute sm:top-0 sm:left-full sm:mb-0 sm:flex sm:items-center sm:whitespace-nowrap ${LABEL}`}>
                             <a href="/projects" className={TEXT_LINK}>
                                 All Projects &rarr;
                             </a>
