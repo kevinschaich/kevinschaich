@@ -163,11 +163,13 @@ Starts with this line, then project-specific notes, then an **Approved exception
 
 ## Components and styling
 
-- **Components are shadcn, through `@kevinschaich/components`.** It contains every shadcn component
-  (base-nova style, zinc theme, Base UI), unmodified, plus the byline. Never install shadcn, Base UI or Radix
-  in a project, and never copy a component into one. If something is missing or needs changing, change
-  `packages/components` in the hub first (`bunx shadcn add <name>` there, or a deliberate edit in its own
-  commit), then use it.
+- **Components start as shadcn and are Kevin's to change, in `@kevinschaich/components`.** It contains every
+  shadcn component (base-nova style, zinc theme, Base UI) plus the byline. shadcn is the starting point, not a
+  constraint: when a component should look or behave differently, edit it in `packages/components` (one
+  deliberate change per commit, with a comment saying why), so every project gets the change. Never install
+  shadcn, Base UI or Radix in a project, never copy a component into one, and never restyle a component
+  per-project to work around it. Missing components: `bunx shadcn add <name>` in `packages/components` first.
+  The weekly shadcn sync opens a PR; keep the customizations when reviewing it.
 - React projects: `bun add @kevinschaich/components`, then in the main CSS file:
   ```css
   @import "tailwindcss";
@@ -189,8 +191,8 @@ Starts with this line, then project-specific notes, then an **Approved exception
   ```
   Put `<span data-ks-byline="kevinschaich/<repo>"></span>` where the byline goes, or call
   `window.kevinschaich.bylineHTML("kevinschaich/<repo>")`.
-- **Switches:** every one-of-a-few choice (view tabs, modes, tiers, basemaps) uses `Segmented` / `SegmentedItem`
-  from `@kevinschaich/components`, never Tabs or an outline ToggleGroup, so they all match.
+- **Switches:** every one-of-a-few choice (view tabs, modes, tiers, basemaps) uses `Tabs` / `TabsList` /
+  `TabsTrigger`, so they all match (customized: no border on the active tab).
 - Look: shadcn's zinc theme, dark, with shadcn's default radius (`--radius: 0.625rem`).
 - Type: [shadcn/typeset](https://ui.shadcn.com/docs/typeset). `typeset.css` is vendored unmodified (a weekly
   job opens a PR when upstream changes); customize only through presets. Article content goes in

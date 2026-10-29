@@ -1,4 +1,4 @@
-# Keeps packages/components on current shadcn: re-adds every component unmodified, refreshes the zinc theme,
+# Keeps packages/components on current shadcn: re-adds every component from upstream, refreshes the zinc theme,
 # rebuilds, and opens a PR with the diff. Review it where it touches a component Kevin customized on purpose.
 name: Update shadcn
 

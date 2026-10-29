@@ -1,8 +1,9 @@
 # @kevinschaich/components
 
 Every [shadcn](https://ui.shadcn.com) component (base-nova style, zinc, Base UI) plus Kevin's branding: Public Sans
-and JetBrains Mono, [shadcn/typeset](https://ui.shadcn.com/docs/typeset), and the byline. Components are shadcn's
-source, unmodified; a weekly job re-syncs them and opens a PR.
+and JetBrains Mono, [shadcn/typeset](https://ui.shadcn.com/docs/typeset), and the byline. Components start as shadcn's
+source and are customized here where Kevin wants them different (each change commented); a weekly job
+re-syncs them and opens a PR, which keeps those customizations.
 
 ```sh
 bun add @kevinschaich/components
