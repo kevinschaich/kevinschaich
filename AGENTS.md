@@ -114,14 +114,21 @@ anything in the Vercel dashboard: if something seems to need it, put it in `verc
   <meta name="twitter:card" content="summary_large_image">
   ```
 
-## One description everywhere
+## Name and tagline
 
-`tagline` in `project.json` is the project's only description: one benefit-first line of 60 characters or
-fewer that says why you'd open it, not what it does ("Find the roads worth driving, anywhere.", not "A
-MapLibre map of scenic roads"). It is used verbatim in all four places: the README's first line under the
-heading, `og:description`, the OG card image (automatic) and the GitHub repo description, which Kevin sets
-with `gh repo edit --description "<tagline>"`. The shared check fails when the README line or
-`og:description` differs from `project.json`.
+Every project gets a short, fun **name** (one or two words) that's memorable rather than descriptive:
+"Backroads", "Pioneer", not "Scenic Road Map" or "Satisfactory Planner". The name is the title
+(`<Name> | by kevinschaich`), the README heading and the OG card; `slug` and the repo name are its
+lowercase-kebab form.
+
+The **tagline** (`tagline` in `project.json`) carries the meaning: one short, sweet, benefit-first line of 60
+characters or fewer that says why you'd open it, not how it works ("Find the roads worth driving, anywhere.",
+not "A MapLibre map of scenic roads"). When the name alone doesn't say what it's for, the tagline does: a tool
+for a game or product names it ("The Satisfactory companion for planning your next build"). It is the
+project's only description, used verbatim everywhere: the README's first line under the heading,
+`og:description`, the OG card image and `/projects` card (automatic), and the GitHub repo description
+(`gh repo edit --description "<tagline>"`). The shared check fails when the README line or `og:description`
+differs from `project.json`.
 
 ## README
 
