@@ -97,7 +97,8 @@ anything in the Vercel dashboard: if something seems to need it, put it in `verc
 - **Data sources**: every project that uses outside data, tiles, icons or art credits each source in a
   "Data sources" dialog (shadcn `Dialog`): what it is, where it's from (linked), and its license. Keep the
   trigger quiet and suited to the page, never a banner: an "i" icon with the map controls, or a small muted
-  "Data sources" link in a corner (e.g. beside a minimap). The README's credits section lists the same sources.
+  "Data sources" link in a corner (e.g. beside a minimap). The README's credits section lists the same sources. Credit data, tiles, icons and art only, never software
+  packages or libraries.
 - **Relative asset paths only** (`worker.js`, not `/worker.js`).
 - **Use the kevinschaich.com address.** Third-party data hosts may block `*.vercel.app` origins (Overture's
   tiles.overturemaps.org answers 403 to them but serves kevinschaich.com), so always test and link
