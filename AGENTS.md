@@ -41,7 +41,6 @@ If something genuinely seems to need runtime execution, ask Kevin first.
   `actions/checkout@v7`, `actions/setup-node@v7`). Never Node 20 or 22, and never an action that still
   targets Node 20.
 - **Turbo** only in the hub monorepo, never in single-app project repos.
-- Existing no-build pages (Backroads) keep using the runtime kit (below) until they need React components.
 
 ## New project checklist
 
