@@ -2,11 +2,16 @@ import { brandImageRoute } from '@/app/components/brand-image'
 import { iconDataURI } from '@/lib/icon'
 import { getProjects } from '@/lib/projects'
 
-/** Favicon (192px) and apple-touch icon (/icon/<slug>-180.png): the project's Lucide icon, white on black. */
+/** Favicon (192px) and apple-touch icon (/icon/<slug>-180.png): the project's Lucide icon, white on black,
+    or a pinned project's own ready-made icon, edge to edge. */
 export const GET = brandImageRoute(
-    ({ icon }, { width }) => (
+    ({ icon, iconImage }, { width }) => (
         <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#000' }}>
-            <img src={iconDataURI(icon)} width={width * 0.6} height={width * 0.6} alt="" />
+            {iconImage ? (
+                <img src={iconImage} width={width} height={width} alt="" />
+            ) : (
+                <img src={iconDataURI(icon)} width={width * 0.6} height={width * 0.6} alt="" />
+            )}
         </div>
     ),
     { width: 192, height: 192 },

@@ -11,7 +11,7 @@ const ZINC = { background: '#09090b', foreground: '#fafafa', muted: '#a1a1aa', b
 
 /** The one OG layout every project shares: icon, name, tagline, then "by kevinschaich", set like a README. */
 export const GET = brandImageRoute(
-    ({ name, tagline, icon }) => (
+    ({ name, tagline, icon, iconImage }) => (
         <div
             style={{
                 width: '100%',
@@ -27,8 +27,8 @@ export const GET = brandImageRoute(
                 color: ZINC.foreground,
             }}
         >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 88, height: 88, flexShrink: 0, marginBottom: FLOW, background: '#000', borderRadius: 16, border: `2px solid ${ZINC.border}` }}>
-                <img src={iconDataURI(icon)} width={52} height={52} alt="" />
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 88, height: 88, flexShrink: 0, marginBottom: FLOW, background: '#000', borderRadius: 16, border: `2px solid ${ZINC.border}`, overflow: 'hidden' }}>
+                {iconImage ? <img src={iconImage} width={84} height={84} alt="" /> : <img src={iconDataURI(icon)} width={52} height={52} alt="" />}
             </div>
             <div style={{ fontFamily: 'heading', fontSize: BODY * 1.75, fontWeight: 600, lineHeight: 1.3, flexShrink: 0 }}>{name}</div>
             {tagline && <div style={{ marginTop: BODY, flexShrink: 0 }}>{tagline}</div>}

@@ -13,7 +13,7 @@ export const dynamicParams = false
 type Props = { params: Promise<{ slug: string }> }
 
 export async function generateStaticParams() {
-    return (await getProjects()).filter((p) => !p.demo).map((p) => ({ slug: p.slug }))
+    return (await getProjects()).filter((p) => !p.demo && !p.link).map((p) => ({ slug: p.slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 /** README-only projects: the repo's README, set with the shared typeset preset. Demos are proxied by middleware. */
 export default async function ProjectReadme({ params }: Props) {
     const project = await getProject((await params).slug)
-    if (!project || project.demo) notFound()
+    if (!project || project.demo || project.link) notFound()
     const html = await renderReadme(project)
     if (html === null) notFound()
 

@@ -12,6 +12,10 @@ export type Project = {
     tagline: string
     /** Lucide icon name (lucide.dev); unknown or missing renders as `box`. */
     icon?: string
+    /** Where the project's tile and /project/<slug>/ go instead of the demo or README. Pinned projects only. */
+    link?: string
+    /** A ready-made square icon (already white on black) as a data URI, used instead of `icon`. Pinned projects only. */
+    iconImage?: string
     repo: string
     fullName: string
     repoId: number
@@ -23,6 +27,22 @@ export type Project = {
     typeset: Typeset
 }
 
+/**
+ * Projects listed first, in this order, ahead of everything discovered. Their name, tagline and icon override
+ * the repo's own; `iconURL` is a square SVG or PNG that's already white on black, fetched at build time.
+ * `link` sends the tile and /project/<slug>/ to the project's own site instead of its demo or README.
+ */
+const PINNED: { slug: string; name: string; tagline: string; iconURL: string; fullName: string; link?: string }[] = [
+    {
+        slug: 'darkgrade',
+        name: 'Darkgrade',
+        tagline: 'Local-first AI for creative pros',
+        iconURL: 'https://darkgrade.com/darkgrade_favicon_dark.svg',
+        fullName: 'darkgrade/darkgrade',
+        link: 'https://darkgrade.com',
+    },
+]
+
 /** Accounts whose repos can be listed: Kevin's own, plus orgs he runs. Only add owners Kevin controls. */
 const OWNERS = ['kevinschaich', 'darkgrade']
 const TOPIC = 'kevinschaich-project'
@@ -32,10 +52,11 @@ let cache: { at: number; projects: Promise<Project[]> } | null = null
 
 export function getProjects(): Promise<Project[]> {
     if (!cache || Date.now() - cache.at > TTL_MS) {
+        // A failed lookup (e.g. GitHub's search rate limit) fails the build rather than publishing an empty
+        // registry, so Vercel keeps serving the last good deploy.
         const projects = load().catch((error) => {
-            console.error('Project registry failed to load', error)
             cache = null
-            return []
+            throw new Error(`Project registry failed to load: ${error.message}`)
         })
         cache = { at: Date.now(), projects }
     }
@@ -71,7 +92,26 @@ async function load(): Promise<Project[]> {
             } satisfies Project
         }),
     )
-    return projects.filter((p): p is Project => p !== null).sort((a, b) => a.name.localeCompare(b.name))
+    const discovered = projects.filter((p): p is Project => p !== null)
+    const pinned = await Promise.all(PINNED.map((pin) => pinnedProject(pin, discovered, gh)))
+    const pinnedSlugs = new Set(pinned.map((p) => p.slug))
+    const pinnedRepos = new Set(PINNED.map((p) => p.fullName))
+    const rest = discovered.filter((p) => !pinnedSlugs.has(p.slug) && !pinnedRepos.has(p.fullName))
+    return [...pinned, ...rest.sort((a, b) => a.name.localeCompare(b.name))]
+}
+
+/** A pinned project: its repo as discovered (or looked up, if it lacks the topic) with the pinned fields on top. */
+async function pinnedProject(pin: (typeof PINNED)[number], discovered: Project[], gh: Record<string, string>): Promise<Project> {
+    let base = discovered.find((p) => p.fullName === pin.fullName || p.slug === pin.slug)
+    if (!base) {
+        const repo = await json(`https://api.github.com/repos/${pin.fullName}`, gh)
+        base = { slug: pin.slug, name: pin.name, tagline: '', repo: repo.html_url, fullName: repo.full_name, repoId: repo.id, defaultBranch: repo.default_branch, url: null, demo: false, typeset: {} }
+    }
+    const res = await fetch(pin.iconURL, { cache: 'no-store' })
+    if (!res.ok) throw new Error(`${res.status} ${pin.iconURL}`)
+    const type = res.headers.get('content-type')?.split(';')[0] || (pin.iconURL.endsWith('.svg') ? 'image/svg+xml' : 'image/png')
+    const iconImage = `data:${type};base64,${Buffer.from(await res.arrayBuffer()).toString('base64')}`
+    return { ...base, slug: pin.slug, name: pin.name, tagline: pin.tagline, iconImage, link: pin.link }
 }
 
 export const raw = (repo: { full_name: string; default_branch: string }) =>

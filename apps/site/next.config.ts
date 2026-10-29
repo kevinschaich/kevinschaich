@@ -14,6 +14,14 @@ const nextConfig: NextConfig = {
             { source: `/project/${p.slug}/:path*`, destination: `${p.url}/:path*` },
         ])
     },
+    // Projects with their own site (a pinned `link`) send /project/<slug>/ there instead.
+    async redirects() {
+        const linked = (await getProjects()).filter((p) => p.link)
+        return linked.flatMap((p) => [
+            { source: `/project/${p.slug}`, destination: p.link!, permanent: false },
+            { source: `/project/${p.slug}/:path*`, destination: p.link!, permanent: false },
+        ])
+    },
     async headers() {
         // Projects on other origins import the runtime kit as ES modules, which needs CORS. Short caches so a
         // kit change reaches every project within the hour.

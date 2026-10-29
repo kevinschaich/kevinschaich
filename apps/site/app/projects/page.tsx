@@ -24,7 +24,7 @@ export default async function Projects() {
                     {projects.map((p) => (
                         <li key={p.slug}>
                             <a
-                                href={`/project/${p.slug}/`}
+                                href={p.link ?? `/project/${p.slug}/`}
                                 className="block overflow-hidden rounded-[var(--radius)] border border-[var(--border)] transition-colors hover:border-[var(--ring)]"
                             >
                                 <img src={`/og/${p.slug}.png`} alt={`${p.name}: ${p.tagline}`} width={1200} height={630} className="block aspect-[1200/630] w-full" />
