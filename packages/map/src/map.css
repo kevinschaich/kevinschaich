@@ -1,0 +1,2 @@
+/* MapLibre's own styles (the control stack is MapControls from @kevinschaich/components). Import once: @import "@kevinschaich/map/map.css"; */
+@import "maplibre-gl/dist/maplibre-gl.css";
