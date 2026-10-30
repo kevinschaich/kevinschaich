@@ -16,7 +16,7 @@ export default async function Image() {
         googleFont('Public Sans', 400).then((data) => ({ name: 'body', data, weight: 400 as const })),
         googleFont('Public Sans', 600).then((data) => ({ name: 'heading', data, weight: 600 as const })),
     ])
-    return new ImageResponse(<OgCard name="Projects" tagline="Maps, games and tools I've built" iconImage={icon} />, {
+    return new ImageResponse(<OgCard name="Projects" tagline="Open-source passion projects I've shipped" iconImage={icon} />, {
         ...size,
         fonts,
     })
