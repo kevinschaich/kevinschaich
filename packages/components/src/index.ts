@@ -5,6 +5,7 @@ export * from './byline'
 export { Byline } from './byline-react'
 export { DataSources, type DataSource } from './data-sources'
 export { Stat } from './stat'
+export { MapControls, ControlButton, type MapControlsProps, type MapLike } from './map-controls'
 
 // Every shadcn component (base-nova style, zinc), customized where commented. Also importable one at a time from
 // '@kevinschaich/components/ui/<name>'.

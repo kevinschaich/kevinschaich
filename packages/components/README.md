@@ -25,6 +25,14 @@ import { Button, Card, Byline } from '@kevinschaich/components'
 Put `class="dark"` on `<html>` for the dark theme. Components also import one at a time from
 `@kevinschaich/components/ui/<name>`.
 
+### Map controls
+
+`<MapControls map={map} sources={SOURCES} />` puts the shared top-right control stack on a MapLibre map: grouped
+glass buttons for zoom +/−, locate me (flies there and shows a dot) and the (i) Data sources dialog. It takes just
+the `maplibregl.Map` (typed loosely as `MapLike`, so this package has no MapLibre dependency) and renders into the
+map's container, so it works with or without `@kevinschaich/map`'s `<MapView>`. Props: `sources`,
+`sourcesDescription`, `zoom` and `locate` (default `true`), and `children` for extra buttons (use `<ControlButton>`).
+
 No build step? Load the runtime kit from kevinschaich.com instead, which always matches `main`:
 
 ```html
