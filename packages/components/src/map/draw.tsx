@@ -1,4 +1,5 @@
-import { Button, Card } from '@kevinschaich/components'
+import { Button } from '../components/ui/button'
+import { Card } from '../components/ui/card'
 import type { Geometry, Position } from 'geojson'
 import type { GeoJSONSource, MapMouseEvent } from 'maplibre-gl'
 import { Check, Undo2, X } from 'lucide-react'

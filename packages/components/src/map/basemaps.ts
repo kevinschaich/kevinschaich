@@ -1,4 +1,4 @@
-import type { DataSource } from '@kevinschaich/components'
+import type { DataSource } from '../data-sources'
 
 export type Basemap = 'dark' | 'streets' | 'satellite' | 'none'
 

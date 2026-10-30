@@ -1,4 +1,6 @@
-import { MapControls, Tabs, TabsList, TabsTrigger, type DataSource } from '@kevinschaich/components'
+import type { DataSource } from '../data-sources'
+import { MapControls } from '../map-controls'
+import { Tabs, TabsList, TabsTrigger } from '../components/ui/tabs'
 import * as maplibregl from 'maplibre-gl'
 // MapLibre 5+/6 loads its worker relative to its own module, which bundlers don't pick up; bundle it explicitly.
 // The app's Vite resolves this (see kevinschaichMap() in ./vite.ts).

@@ -1,20 +1,8 @@
-import {
-    Button,
-    Card,
-    CardAction,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-    Checkbox,
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-    Label,
-} from '@kevinschaich/components'
+import { Button } from '../components/ui/button'
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card'
+import { Checkbox } from '../components/ui/checkbox'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../components/ui/command'
+import { Label } from '../components/ui/label'
 import { MapPin, X } from 'lucide-react'
 import { useRef, useState, type ReactNode } from 'react'
 import { useMap } from './MapView'

@@ -46,12 +46,13 @@
     },
     "packages/components": {
       "name": "@kevinschaich/components",
-      "version": "0.5.0",
+      "version": "0.7.0",
       "dependencies": {
         "@base-ui/react": "^1.9.0",
         "@fontsource-variable/jetbrains-mono": "^5.3.0",
         "@fontsource-variable/public-sans": "^5.3.0",
         "@shadcn/react": "^0.3.1",
+        "@types/geojson": "^7946.0.16",
         "class-variance-authority": "^0.7.1",
         "cmdk": "^1.1.1",
         "cn": "^0.5.0",
@@ -69,40 +70,22 @@
       "devDependencies": {
         "@types/react": "^19.3.0",
         "@types/react-dom": "^19.3.0",
-        "react-dom": "19.1.1",
-        "tailwindcss": "^4.1.0",
-        "tsup": "^9.0.0",
-        "typescript": "5.9.3",
-      },
-      "peerDependencies": {
-        "react": ">=19",
-        "react-dom": ">=19",
-      },
-    },
-    "packages/map": {
-      "name": "@kevinschaich/map",
-      "version": "0.1.0",
-      "dependencies": {
-        "@types/geojson": "^7946.0.16",
-        "lucide-react": "^1.63.0",
-      },
-      "devDependencies": {
-        "@kevinschaich/components": "^0.5.0",
-        "@types/react": "^19.3.0",
-        "@types/react-dom": "^19.3.0",
         "maplibre-gl": "^6.16.0",
         "react": "19.1.1",
         "react-dom": "19.1.1",
+        "tailwindcss": "^4.1.0",
         "tsup": "^9.0.0",
         "typescript": "5.9.3",
         "vite": "^8.3.5",
       },
       "peerDependencies": {
-        "@kevinschaich/components": ">=0.5.0",
         "maplibre-gl": ">=5",
         "react": ">=19",
         "react-dom": ">=19",
       },
+      "optionalPeers": [
+        "maplibre-gl",
+      ],
     },
   },
   "packages": {
@@ -307,8 +290,6 @@
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
     "@kevinschaich/components": ["@kevinschaich/components@workspace:packages/components"],
-
-    "@kevinschaich/map": ["@kevinschaich/map@workspace:packages/map"],
 
     "@mapbox/jsonlint-lines-primitives": ["@mapbox/jsonlint-lines-primitives@2.0.3", "", {}, "sha512-0SElaV0uMxEnxzBhhX9WTuPyUeMsAN/SS0i16tjuba4/mio63MG9khjC1a0JAiPGXAwvwm4UfHJURCN7nyudQg=="],
 

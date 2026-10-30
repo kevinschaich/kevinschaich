@@ -1,7 +1,7 @@
 {
     "name": "@kevinschaich/components",
-    "version": "0.6.0",
-    "description": "Shared branding and components for Kevin Schaich's projects",
+    "version": "0.7.0",
+    "description": "Shared branding, components and MapLibre map pieces for Kevin Schaich's projects",
     "license": "MIT",
     "type": "module",
     "repository": {
@@ -18,9 +18,18 @@
             "types": "./dist/ui/*.d.ts",
             "default": "./dist/ui/*.js"
         },
+        "./map": {
+            "types": "./dist/map/index.d.ts",
+            "default": "./dist/map/index.js"
+        },
+        "./map/vite": {
+            "types": "./dist/map/vite.d.ts",
+            "default": "./dist/map/vite.js"
+        },
         "./theme.css": "./src/theme.css",
         "./styles.css": "./src/styles.css",
         "./typeset.css": "./src/typeset.css",
+        "./map.css": "./src/map.css",
         "./kit/*": "./dist/kit/*"
     },
     "files": [
@@ -33,9 +42,14 @@
     ],
     "peerDependencies": {
         "react": ">=19",
-        "react-dom": ">=19"
+        "react-dom": ">=19",
+        "maplibre-gl": ">=5"
     },
-    "peerDependenciesMeta": {},
+    "peerDependenciesMeta": {
+        "maplibre-gl": {
+            "optional": true
+        }
+    },
     "publishConfig": {
         "access": "public"
     },
@@ -47,16 +61,20 @@
     "devDependencies": {
         "@types/react": "^19.3.0",
         "@types/react-dom": "^19.3.0",
+        "maplibre-gl": "^6.16.0",
+        "react": "19.1.1",
         "react-dom": "19.1.1",
         "tailwindcss": "^4.1.0",
         "tsup": "^9.0.0",
-        "typescript": "5.9.3"
+        "typescript": "5.9.3",
+        "vite": "^8.3.5"
     },
     "dependencies": {
         "@base-ui/react": "^1.9.0",
         "@fontsource-variable/jetbrains-mono": "^5.3.0",
         "@fontsource-variable/public-sans": "^5.3.0",
         "@shadcn/react": "^0.3.1",
+        "@types/geojson": "^7946.0.16",
         "class-variance-authority": "^0.7.1",
         "cmdk": "^1.1.1",
         "cn": "^0.5.0",
