@@ -154,7 +154,14 @@ export function MapView({
             if (!ids.length || !m.queryRenderedFeatures(e.point, { layers: ids }).length) bgClick.current?.(e)
         })
         m.once('style.load', () => setMap(m))
+        // A #zoom/lat/lon pasted into an open tab moves the map (replaceState above doesn't fire this)
+        const onHash = () => {
+            const h = parseHash()
+            if (h) m.jumpTo(h)
+        }
+        if (hash) addEventListener('hashchange', onHash)
         return () => {
+            removeEventListener('hashchange', onHash)
             setMap(null)
             m.remove()
         }
