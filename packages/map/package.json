@@ -42,7 +42,7 @@
         "@types/geojson": "^7946.0.16"
     },
     "devDependencies": {
-        "@kevinschaich/components": "^0.5.0",
+        "@kevinschaich/components": "^0.6.0",
         "@types/react": "^19.3.0",
         "@types/react-dom": "^19.3.0",
         "maplibre-gl": "^6.16.0",

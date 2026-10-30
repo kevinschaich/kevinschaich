@@ -46,7 +46,7 @@
     },
     "packages/components": {
       "name": "@kevinschaich/components",
-      "version": "0.5.0",
+      "version": "0.6.0",
       "dependencies": {
         "@base-ui/react": "^1.9.0",
         "@fontsource-variable/jetbrains-mono": "^5.3.0",
@@ -87,7 +87,7 @@
         "lucide-react": "^1.63.0",
       },
       "devDependencies": {
-        "@kevinschaich/components": "^0.5.0",
+        "@kevinschaich/components": "^0.6.0",
         "@types/react": "^19.3.0",
         "@types/react-dom": "^19.3.0",
         "maplibre-gl": "^6.16.0",
@@ -98,7 +98,7 @@
         "vite": "^8.3.5",
       },
       "peerDependencies": {
-        "@kevinschaich/components": ">=0.5.0",
+        "@kevinschaich/components": ">=0.6.0",
         "maplibre-gl": ">=5",
         "react": ">=19",
         "react-dom": ">=19",
