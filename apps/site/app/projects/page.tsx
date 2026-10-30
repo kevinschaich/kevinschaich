@@ -7,7 +7,7 @@ import '@kevinschaich/components/styles.css'
 export const dynamic = 'force-static'
 
 const TITLE = 'Projects | by kevinschaich'
-const DESCRIPTION = 'Things Kevin Schaich built for fun.'
+const DESCRIPTION = "Maps, games and tools I've built"
 
 // Its own card and titles, so link previews don't fall back to the home page's
 export const metadata: Metadata = {
