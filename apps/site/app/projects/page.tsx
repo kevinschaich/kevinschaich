@@ -6,10 +6,16 @@ import '@kevinschaich/components/styles.css'
 
 export const dynamic = 'force-static'
 
+const TITLE = 'Projects | by kevinschaich'
+const DESCRIPTION = 'Things Kevin Schaich built for fun.'
+
+// Its own card and titles, so link previews don't fall back to the home page's
 export const metadata: Metadata = {
-    title: 'Projects | by kevinschaich',
-    description: 'Things Kevin Schaich built for fun.',
+    title: TITLE,
+    description: DESCRIPTION,
     alternates: { canonical: '/projects' },
+    openGraph: { title: TITLE, siteName: TITLE, description: DESCRIPTION, type: 'website', url: 'https://kevinschaich.com/projects' },
+    twitter: { card: 'summary_large_image', title: TITLE, description: DESCRIPTION, creator: '@kevinschaich' },
 }
 
 /** Every project as a full-width tile: its screenshot, faded from the left under its icon, name and tagline. */
