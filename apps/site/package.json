@@ -30,6 +30,7 @@
         "hls.js": "^1.7.3",
         "lucide": "^1.63.0",
         "next": "^15.5.0",
+        "posthog-js": "^1.334.1",
         "react": "19.1.1",
         "react-dom": "19.1.1",
         "rehype-autolink-headings": "^7.1.0",
