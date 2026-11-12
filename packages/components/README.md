@@ -25,6 +25,20 @@ import { Button, Card, Byline } from '@kevinschaich/components'
 Put `class="dark"` on `<html>` for the dark theme. Components also import one at a time from
 `@kevinschaich/components/ui/<name>`.
 
+### Leaderboard
+
+`<Leaderboard rows={rows} rowKey={(row) => row.id} defaultSort="wer" columns={columns} />` is the ranked table for
+benchmark results (voicebench, textbench, cambench). Rows are numbered by the active sort; clicking a sortable
+column's header ranks by it, best first, and again reverses it. Each column is `{ key, label, value?, better?,
+render?, align?, hint? }`: `value` makes it sortable, `better: 'lower'` (the default) or `'higher'` says which way
+is best, and the best value in each sortable column is emphasised.
+
+### Tradeoff chart
+
+`<TradeoffChart points={[{ id, label, x, y }]} xLabel="Wait" yLabel="Word errors" xScale="log" />` plots two
+lower-is-better measures against each other, one labelled dot per entry, so the best sit nearest the origin.
+`highlight` emphasises one entry and `onSelect(id)` makes dots clickable.
+
 ### Map controls
 
 `<MapControls map={map} sources={SOURCES} />` puts the shared top-right control stack on a MapLibre map: grouped
