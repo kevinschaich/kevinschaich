@@ -93,7 +93,7 @@ export default async function Projects() {
                       className="absolute inset-0"
                       style={{
                         backgroundImage:
-                          "linear-gradient(90deg, rgba(10,10,11,0.97) 0%, rgba(10,10,11,0.94) 42%, rgba(10,10,11,0.72) 62%, rgba(10,10,11,0.2) 84%, rgba(10,10,11,0.05) 100%)",
+                          "linear-gradient(90deg, rgba(10,10,11,0.92) 0%, rgba(10,10,11,0.82) 38%, rgba(10,10,11,0.5) 62%, rgba(10,10,11,0.12) 86%, rgba(10,10,11,0) 100%)",
                       }}
                     />
                   )}
@@ -107,7 +107,10 @@ export default async function Projects() {
                     </p>
                     <span className="mt-[1.1em] font-mono text-[11px] tracking-[.18em] text-gold uppercase">
                       {project.link
-                        ? new URL(project.link).hostname.replace(/^www\./, "")
+                        ? (
+                            new URL(project.link).host.replace(/^www\./, "") +
+                            new URL(project.link).pathname
+                          ).replace(/\/$/, "")
                         : `kevinschaich.com/project/${project.slug}`}
                     </span>
                   </div>
