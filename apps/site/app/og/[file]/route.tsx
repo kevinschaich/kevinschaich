@@ -1,13 +1,12 @@
-import { kevinschaichMark, OgCard } from '@kevinschaich/components/og'
+import { OgCard } from '@kevinschaich/components/og'
 import { brandImageRoute } from '@/app/components/brand-image'
 import { getProjects } from '@/lib/projects'
 
-/** Every project's card, in the one shared layout: the Kevinschaich mark, the project's name and tagline, over a
- *  screenshot of the app in use when the project has one. */
+/** Every project's card, in the one shared layout: the project's name and tagline over a screenshot of the app in
+ *  use when the project has one. No mark — the address at the foot says whose it is. */
 export const GET = brandImageRoute(
     ({ name, tagline, screenshot }) => (
         <OgCard
-            logo={{ mark: kevinschaichMark.dark, name: 'Kevinschaich' }}
             main={name}
             sub={tagline}
             address="kevinschaich.com"

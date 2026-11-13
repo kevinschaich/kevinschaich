@@ -24,8 +24,9 @@ export type OgCardProps = {
   /** An image URL or data URI filling the card behind the words. Pass the flowy backdrop for a brand card, or a
         screenshot of the app for a project. Without one the card is plain near-black. */
   background?: string;
-  /** The mark, drawn bare — no tile, no border, nothing behind it — beside the brand name. */
-  logo: { mark: string | Mark; name: string };
+  /** The mark, drawn bare — no tile, no border, nothing behind it — beside the brand name. Left out, the
+        card opens on its headline instead: the address line at the foot already says whose it is. */
+  logo?: { mark: string | Mark; name: string };
   /** The big line: a bench name, a project name, a page name. */
   main: string;
   /** One line under it. */
@@ -50,8 +51,9 @@ export function OgCard({
   const body = fonts?.body ?? "body";
   const heading = fonts?.heading ?? "heading";
   const mono = fonts?.mono ?? "mono";
-  const mark =
-    typeof logo.mark === "string"
+  const mark = !logo
+    ? undefined
+    : typeof logo.mark === "string"
       ? { src: logo.mark, aspect: 80 / 56 }
       : logo.mark;
   // A touch taller than the name's capitals, so the mark reads as part of the wordmark rather than an icon.
@@ -112,31 +114,33 @@ export function OgCard({
           flexDirection: "column",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
-          <img
-            src={mark.src}
-            width={Math.round(markHeight * mark.aspect)}
-            height={markHeight}
-            alt=""
-          />
-          <div
-            style={{
-              marginLeft: 18,
-              fontFamily: heading,
-              fontSize: NAME,
-              fontWeight: 500,
-              letterSpacing: NAME * -0.035,
-              lineHeight: 1,
-              color: CARD_COLORS.bone,
-            }}
-          >
-            {logo.name}
+        {logo && mark && (
+          <div style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
+            <img
+              src={mark.src}
+              width={Math.round(markHeight * mark.aspect)}
+              height={markHeight}
+              alt=""
+            />
+            <div
+              style={{
+                marginLeft: 18,
+                fontFamily: heading,
+                fontSize: NAME,
+                fontWeight: 500,
+                letterSpacing: NAME * -0.035,
+                lineHeight: 1,
+                color: CARD_COLORS.bone,
+              }}
+            >
+              {logo.name}
+            </div>
           </div>
-        </div>
+        )}
 
         <div
           style={{
-            marginTop: 54,
+            marginTop: logo ? 54 : 0,
             fontFamily: heading,
             fontSize: MAIN,
             fontWeight: 600,

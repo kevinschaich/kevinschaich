@@ -1,4 +1,4 @@
-import { backdropDataURI, kevinschaichMark, OgCard } from '@kevinschaich/components/og'
+import { backdropDataURI, OgCard } from '@kevinschaich/components/og'
 import { ImageResponse } from 'next/og'
 import { cardFonts } from '@/app/components/brand-image'
 
@@ -12,7 +12,6 @@ export default async function Image() {
     const [fonts, background] = await Promise.all([cardFonts(), backdropDataURI()])
     return new ImageResponse(
         <OgCard
-            logo={{ mark: kevinschaichMark.dark, name: 'Kevinschaich' }}
             main="Projects"
             sub="Open-source passion projects I've shipped"
             address="kevinschaich.com/projects"
