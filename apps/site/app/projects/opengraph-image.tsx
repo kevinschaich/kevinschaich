@@ -1,23 +1,23 @@
-import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { backdropDataURI, kevinschaichMark, OgCard } from '@kevinschaich/components/og'
 import { ImageResponse } from 'next/og'
-import { OgCard } from '@/app/components/og-card'
-import { googleFont } from '@/lib/typeset'
+import { cardFonts } from '@/app/components/brand-image'
 
 export const dynamic = 'force-static'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 export const alt = 'Projects by Kevin Schaich'
 
-/** The /projects card: the KS mark, the page's name and description, in the default faces. */
+/** The /projects card: the shared layout over the flowy backdrop. */
 export default async function Image() {
-    const icon = `data:image/svg+xml;base64,${readFileSync(join(process.cwd(), 'public/favicon.svg')).toString('base64')}`
-    const fonts = await Promise.all([
-        googleFont('Public Sans', 400).then((data) => ({ name: 'body', data, weight: 400 as const })),
-        googleFont('Public Sans', 600).then((data) => ({ name: 'heading', data, weight: 600 as const })),
-    ])
-    return new ImageResponse(<OgCard name="Projects" tagline="Open-source passion projects I've shipped" iconImage={icon} />, {
-        ...size,
-        fonts,
-    })
+    const [fonts, background] = await Promise.all([cardFonts(), backdropDataURI()])
+    return new ImageResponse(
+        <OgCard
+            logo={{ mark: kevinschaichMark.dark, name: 'Kevinschaich' }}
+            main="Projects"
+            sub="Open-source passion projects I've shipped"
+            address="kevinschaich.com/projects"
+            background={background}
+        />,
+        { ...size, fonts },
+    )
 }

@@ -1,25 +1,17 @@
-import { readFile } from 'node:fs/promises'
-import { join } from 'node:path'
+import { backdropDataURI, kevinschaichMark, OgCard } from '@kevinschaich/components/og'
 import { ImageResponse } from 'next/og'
-import { OgCard } from '@/app/components/og-card'
-import { faces, googleFont } from '@/lib/typeset'
+import { cardFonts } from '@/app/components/brand-image'
 
-/** kevinschaich.com's own card, in the same layout as every project's. */
+/** kevinschaich.com's own card, in the same layout as every project's, over the flowy backdrop. */
 export async function GET() {
-    const { body, heading } = faces({})
-    const [fonts, mark] = await Promise.all([
-        Promise.all([
-            googleFont(body, 400).then((data) => ({ name: 'body', data, weight: 400 as const })),
-            googleFont(heading, 600).then((data) => ({ name: 'heading', data, weight: 600 as const })),
-        ]),
-        readFile(join(process.cwd(), 'public/favicon.svg')),
-    ])
+    const [fonts, background] = await Promise.all([cardFonts(), backdropDataURI()])
     return new ImageResponse(
         <OgCard
-            name="Kevin Schaich"
-            tagline="Building Darkgrade: local-first AI for creative pros."
-            iconImage={`data:image/svg+xml;base64,${mark.toString('base64')}`}
-            footer="kevinschaich.com"
+            logo={{ mark: kevinschaichMark.dark, name: 'Kevinschaich' }}
+            main="Kevin Schaich"
+            sub="Building Darkgrade: local-first AI for creative pros."
+            address="kevinschaich.com"
+            background={background}
         />,
         { width: 1200, height: 630, fonts },
     )

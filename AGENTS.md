@@ -120,6 +120,47 @@ anything in the Vercel dashboard: if something seems to need it, put it in `verc
   <meta name="twitter:card" content="summary_large_image">
   ```
 
+## Link preview cards
+
+One card design for both brands — Darkgrade's sites and benches, kevinschaich.com and every project. It lives in
+[`packages/components`](https://github.com/kevinschaich/kevinschaich/tree/main/packages/components) and ships from
+`@kevinschaich/components`; nobody draws their own.
+
+```tsx
+import { OgCard, kevinschaichMark, darkgradeMark, backdropDataURI } from '@kevinschaich/components/og'
+
+<OgCard
+    logo={{ mark: kevinschaichMark.dark, name: 'Kevinschaich' }}  // Darkgrade's repos pass darkgradeMark + "Darkgrade"
+    main="Backroads"                                              // the big line: a project, a bench, a page
+    sub="Find the roads worth driving, anywhere."
+    address="kevinschaich.com"                                    // mono caps, gold
+    background={await backdropDataURI()}                          // the flowy backdrop, or a screenshot of the app
+/>
+```
+
+- **The flowy backdrop and both marks ship from the package** (`backdropDataURI()`, `backdropPath()`,
+  `kevinschaichMark`, `darkgradeMark`, each with a `dark` and a `light` version), so no repo carries its own copy.
+  The mark is drawn bare: no tile, no border, nothing behind it.
+- **A consumer generates its cards, it doesn't commit PNGs.** kevinschaich.com renders them statically at
+  `/og/<slug>.png`; a Darkgrade site does the same at build time. The card is Satori (`next/og`, `@vercel/og`) and
+  wants three faces registered as `body`, `heading` (500 and 600) and `mono`.
+- The one card means a project page keeps pointing at `https://kevinschaich.com/og/<slug>.png` as above; its
+  `background` is the project's own `screenshot`, and its `main` is the project's name.
+
+## Analytics
+
+kevinschaich.com, darkgrade.com and every project under `kevinschaich.com/projects` report to the same PostHog
+project, through our proxy at `https://ph.darkgrade.com`.
+
+- **Next apps** read `NEXT_PUBLIC_POSTHOG_KEY` / `NEXT_PUBLIC_POSTHOG_HOST` from the environment; Kevin sets them
+  in Vercel.
+- **Everything with no environment to read** — Vite projects, no-build pages — carries the key inline. No-build
+  pages that load `kit/v1/brand.js` already do, automatically; a React project calls `initAnalytics()` from
+  `@kevinschaich/components` once at startup. Both use project key
+  `phc_eOW21t5JEdgDB5lue4y9GuJhltWD5miYyLw86JkMN6g`, `api_host: 'https://ph.darkgrade.com'`, `defaults:
+  '2025-11-30'`, autocapture on, session recording, surveys and dead clicks off.
+- A `phc_` key is public and write-only, so committing it is fine. A `phx_` key never goes in a repo.
+
 ## Copy
 
 Write for people using the thing, not for its builder. Say what to do and what happened, plainly. Never put
