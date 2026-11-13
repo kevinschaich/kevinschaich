@@ -1,6 +1,6 @@
 {
     "name": "@kevinschaich/components",
-    "version": "0.7.0",
+    "version": "0.8.0",
     "description": "Shared branding, components and MapLibre map pieces for Kevin Schaich's projects",
     "license": "MIT",
     "type": "module",
@@ -26,6 +26,11 @@
             "types": "./dist/map/vite.d.ts",
             "default": "./dist/map/vite.js"
         },
+        "./og": {
+            "types": "./dist/og/index.d.ts",
+            "default": "./dist/og/index.js"
+        },
+        "./og/assets/*": "./src/og/assets/*",
         "./theme.css": "./src/theme.css",
         "./styles.css": "./src/styles.css",
         "./typeset.css": "./src/typeset.css",
@@ -54,7 +59,7 @@
         "access": "public"
     },
     "scripts": {
-        "build": "node scripts/gen-index.mjs && node scripts/sync-tokens.mjs && tsup && node scripts/use-client.mjs",
+        "build": "rm -rf dist && node scripts/gen-index.mjs && node scripts/sync-tokens.mjs && tsup && node scripts/copy-og-assets.mjs && node scripts/use-client.mjs",
         "typecheck": "tsc --noEmit",
         "update-typeset": "curl -fsSL https://ui.shadcn.com/typeset.css -o src/typeset.css"
     },

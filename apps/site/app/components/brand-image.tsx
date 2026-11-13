@@ -14,15 +14,21 @@ export function brandImageRoute(render: (p: Project, size: Size) => React.ReactE
         const dims = suffix ? variants[suffix] : size
         const project = await getProject(slug)
         if (!project) return new Response('Not found', { status: 404 })
-        const { body, heading } = faces(project.typeset)
-        const fonts = await Promise.all([
-            googleFont(body, 400).then((data) => ({ name: 'body', data, weight: 400 as const })),
-            googleFont(heading, 600).then((data) => ({ name: 'heading', data, weight: 600 as const })),
-        ])
         return new ImageResponse(render(project, dims), {
             ...dims,
-            fonts,
+            fonts: await cardFonts(project.typeset),
             headers: { 'Cache-Control': 'public, max-age=300, s-maxage=600, stale-while-revalidate=3600' },
         })
     }
+}
+
+/** The three faces the shared OG card asks for, named as it expects: body, heading and the mono address line. */
+export async function cardFonts(typeset: Project['typeset'] = {}) {
+    const { body, heading, mono } = faces(typeset)
+    return Promise.all([
+        googleFont(body, 400).then((data) => ({ name: 'body', data, weight: 400 as const })),
+        googleFont(heading, 600).then((data) => ({ name: 'heading', data, weight: 600 as const })),
+        googleFont(heading, 500).then((data) => ({ name: 'heading', data, weight: 500 as const })),
+        googleFont(mono, 400).then((data) => ({ name: 'mono', data, weight: 400 as const })),
+    ])
 }
