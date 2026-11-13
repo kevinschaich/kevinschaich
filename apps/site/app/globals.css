@@ -16,6 +16,7 @@
   --font-mono: var(--font-site-mono), ui-monospace, monospace;
 
   --heading-weight: 600;
+  --lockup-weight: 500;
 
   --ease-lamp: cubic-bezier(0.19, 1, 0.22, 1);
 
@@ -86,4 +87,14 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* the weight of the name in the lockup, one lighter than a heading, as on darkgrade.com */
+@utility lockup-weight {
+  font-weight: var(--lockup-weight);
+}
+
+/* the weight of a heading, one knob, as on darkgrade.com */
+@utility heading-weight {
+  font-weight: var(--heading-weight);
 }

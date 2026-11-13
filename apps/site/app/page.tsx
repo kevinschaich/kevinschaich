@@ -1,115 +1,128 @@
-import { BackgroundVideo } from "@/app/components/background-video";
-import { Wordmark, WordmarkSprite } from "@/app/components/wordmark";
+import { Dust } from "@/app/components/dust/dust";
+import { Lockup, WordmarkSprite } from "@/app/components/wordmark";
 
+/** This page's sheet number, in its own series. */
+const DOCUMENT_NUMBER = "KS-LP-001";
+
+/** The small capitals of a slate, as darkgrade.com sets them. */
+const SLATE = "font-mono text-[11px] leading-[22px] tracking-[.18em] uppercase";
+
+/** Where this page sends you: the label, and where it lands. */
 const DARKGRADE_LINKS = [
-  {
-    label: "Visit darkgrade.com",
-    href: "https://darkgrade.com",
-    primary: true,
-  },
+  { label: "The site", detail: "darkgrade.com", href: "https://darkgrade.com" },
   {
     label: "Watch it in action",
+    detail: "YouTube",
     href: "https://www.youtube.com/watch?v=tsNWxj-pmU4",
   },
-  { label: "Star on GitHub", href: "https://github.com/darkgrade/darkgrade" },
-  { label: "Join the Discord", href: "https://discord.gg/fbDbdJv9dX" },
-  { label: "Read the docs", href: "https://darkgrade.com/docs/link" },
+  {
+    label: "Read the code",
+    detail: "GitHub",
+    href: "https://github.com/darkgrade/darkgrade",
+  },
+  {
+    label: "Talk to us",
+    detail: "Discord",
+    href: "https://discord.gg/fbDbdJv9dX",
+  },
 ];
 
 const PERSONAL_LINKS = [
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/kevinschaich/" },
-  { label: "X", href: "https://x.com/kevinschaich" },
+  { label: "Everything I've built", detail: "Projects", href: "/projects" },
+  {
+    label: "Kevin on LinkedIn",
+    detail: "LinkedIn",
+    href: "https://www.linkedin.com/in/kevinschaich/",
+  },
+  { label: "Kevin on X", detail: "X", href: "https://x.com/kevinschaich" },
 ];
 
-const LABEL = "text-label tracking-meta text-ink-55 uppercase";
-
-const BUTTON =
-  "flex w-full items-center justify-center rounded-full px-8 py-[17px] text-label tracking-[.04em] transition-[background,border-color,color,box-shadow] duration-[350ms] hover:shadow-[0_0_26px_rgba(244,198,110,.16)]";
-const BUTTON_SOLID = `${BUTTON} bg-ink text-obsidian hover:bg-gold`;
-const BUTTON_GHOST = `${BUTTON} panel border border-hair text-ink hover:border-gold hover:text-gold`;
-
-/** darkgrade.com's nav link: muted, warming to ink with a gold underline drawn in from the left. */
-const TEXT_LINK =
-  "relative text-label tracking-[.06em] text-ink-55 uppercase transition-[color,text-shadow] duration-300 hover:text-ink hover:[text-shadow:0_0_12px_rgba(244,198,110,.35)] " +
-  "after:absolute after:-bottom-[5px] after:left-0 after:h-px after:w-full after:origin-right after:scale-x-0 after:bg-gold after:shadow-[0_0_9px_rgba(244,198,110,.55)] after:transition-transform after:duration-[450ms] after:ease-lamp after:content-[''] " +
-  "hover:after:origin-left hover:after:scale-x-100";
+const ROW =
+  "group flex items-baseline justify-between gap-5 border-b border-hair py-[15px] text-[1.0625rem] transition-colors duration-300 hover:text-gold";
+const ROW_DETAIL =
+  "font-mono text-[11px] tracking-[.18em] text-ink-52 uppercase transition-colors duration-300 group-hover:text-gold";
 
 export default function Home() {
   return (
     <>
       <WordmarkSprite />
-      <BackgroundVideo />
+      <Dust />
 
       <main className="relative z-[2] flex min-h-dvh flex-col">
-        <div className="mx-auto flex w-full max-w-[420px] flex-1 flex-col items-center justify-center px-4 py-[clamp(40px,7vh,80px)]">
-          <header className="relative flex w-full flex-col items-center text-center">
-            {/* The top-right corner of the center section, level with "I'm building:" (same line box) with its left edge on
-                            the buttons' right edge; its own row on phones. */}
-            <nav
-              aria-label="Projects"
-              className={`mb-10 self-end sm:absolute sm:top-0 sm:left-full sm:mb-0 sm:flex sm:items-center sm:whitespace-nowrap ${LABEL}`}
-            >
-              <a href="/projects" className={TEXT_LINK}>
-                All Projects &rarr;
-              </a>
-            </nav>
+        {/* The slate line, running the width of the page rather than sitting in the column. */}
+        <div
+          className={`mx-auto flex w-[min(1560px,calc(100%-clamp(24px,6vw,128px)))] items-center justify-between gap-4 border-t border-hair pt-[10px] ${SLATE}`}
+        >
+          <span className="text-gold">kevinschaich.com</span>
+          <span className="text-ink-52">{DOCUMENT_NUMBER}</span>
+        </div>
 
-            <p className={`mb-12 ${LABEL}`}>I&rsquo;m building:</p>
+        <div className="mx-auto flex w-full max-w-[440px] flex-1 flex-col justify-center px-5 pt-[clamp(24px,5vh,48px)] pb-[clamp(32px,6vh,64px)]">
+          <header className="flex flex-col items-center text-center">
+            <p className={`${SLATE} text-ink-55`}>I&rsquo;m building</p>
 
             <a
               href="https://darkgrade.com"
               aria-label="Darkgrade"
-              className="block text-ink"
+              className="mt-5 block text-ink"
             >
-              <Wordmark className="mark-glow block h-[15px] w-auto" />
+              <Lockup className="mark-glow text-[21px]" />
             </a>
 
-            <h1 className="mt-6 font-serif text-[clamp(2rem,8vw,2.75rem)] leading-[.94] font-semibold tracking-[-.045em]">
-              Shoot more. Edit{" "}
-              <span className="glow-hot tracking-normal italic">less.</span>
+            <h1 className="mt-7 font-serif text-[clamp(2rem,8vw,2.75rem)] leading-[.96] heading-weight tracking-[-.045em]">
+              Shoot more. Edit <span className="glow-hot italic">less.</span>
             </h1>
-
-            <p className={`mt-3 ${LABEL}`}>
-              Local-first AI
-              <br />
-              for creative pros
-            </p>
           </header>
 
           <nav
             aria-label="Darkgrade"
-            className="mt-9 flex w-full flex-col gap-[14px]"
+            className="mt-[clamp(32px,6vh,56px)] border-t border-hair"
           >
-            {DARKGRADE_LINKS.map(({ label, href, primary }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener"
-                className={primary ? BUTTON_SOLID : BUTTON_GHOST}
-              >
-                {label}
-              </a>
-            ))}
+            <ul>
+              {DARKGRADE_LINKS.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener"
+                    className={ROW}
+                  >
+                    <span>{link.label}</span>
+                    <span className={ROW_DETAIL}>{link.detail}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </nav>
 
-          <nav
-            aria-label="Kevin Schaich elsewhere"
-            className="mt-12 flex flex-wrap justify-center gap-x-7 gap-y-3"
-          >
-            {PERSONAL_LINKS.map(({ label, href }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener me"
-                className={TEXT_LINK}
-              >
-                {label}
-              </a>
-            ))}
+          <nav aria-label="Kevin Schaich" className="mt-[clamp(28px,5vh,44px)]">
+            <h2 className={`${SLATE} text-gold`}>Elsewhere</h2>
+            <ul className="mt-[6px] border-t border-hair">
+              {PERSONAL_LINKS.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    {...(link.href.startsWith("http")
+                      ? { target: "_blank", rel: "noopener me" }
+                      : {})}
+                    className={ROW}
+                  >
+                    <span>{link.label}</span>
+                    <span className={ROW_DETAIL}>{link.detail}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </nav>
         </div>
+
+        {/* darkgrade.com's bottom strip: the blurred panel, edge to edge */}
+        <footer className="panel border-t border-hair">
+          <div className="mx-auto flex w-[min(1560px,calc(100%-clamp(24px,6vw,128px)))] items-center justify-between gap-5 py-[20px] font-mono text-[11px] tracking-[.06em] whitespace-nowrap text-ink-52">
+            <span>© 2026 KEVIN SCHAICH</span>
+            <span className="max-[640px]:hidden">DENVER, COLORADO</span>
+          </div>
+        </footer>
       </main>
     </>
   );
