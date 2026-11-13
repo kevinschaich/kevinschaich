@@ -1,65 +1,149 @@
-import type { Metadata } from 'next'
-import { getProjects } from '@/lib/projects'
-import { Byline } from '@kevinschaich/components'
-import '@fontsource-variable/public-sans'
-import '@kevinschaich/components/styles.css'
+import { Dust } from "@/app/components/dust/dust";
+import { getProjects } from "@/lib/projects";
+import type { Metadata } from "next";
 
-export const dynamic = 'force-static'
+export const dynamic = "force-static";
 
-const TITLE = 'Projects | by kevinschaich'
-const DESCRIPTION = "Open-source passion projects I've shipped"
+const TITLE = "Projects | by kevinschaich";
+const DESCRIPTION = "Open-source passion projects I've shipped";
+
+/** This page's sheet number, in the same series as the landing page. */
+const DOCUMENT_NUMBER = "KS-PR-002";
+
+/** The small capitals of a slate, as darkgrade.com sets them. */
+const SLATE = "font-mono text-[11px] leading-[22px] tracking-[.18em] uppercase";
+
+/** The page's gutter, the same measure the rest of the family uses. */
+const SHELL = "mx-auto w-[min(1560px,calc(100%-clamp(24px,6vw,128px)))]";
 
 // Its own card and titles, so link previews don't fall back to the home page's
 export const metadata: Metadata = {
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: { canonical: "/projects" },
+  openGraph: {
+    title: TITLE,
+    siteName: TITLE,
+    description: DESCRIPTION,
+    type: "website",
+    url: "https://kevinschaich.com/projects",
+  },
+  twitter: {
+    card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
-    alternates: { canonical: '/projects' },
-    openGraph: { title: TITLE, siteName: TITLE, description: DESCRIPTION, type: 'website', url: 'https://kevinschaich.com/projects' },
-    twitter: { card: 'summary_large_image', title: TITLE, description: DESCRIPTION, creator: '@kevinschaich' },
-}
+    creator: "@kevinschaich",
+  },
+};
 
-/** Every project as a full-width tile: its screenshot, faded from the left under its icon, name and tagline. */
+/**
+ * Every project as a tile cut to the shape of its own link preview card: the screenshot behind,
+ * near-black fading off to the right, the name set large with the tagline under it and where it
+ * lands in gold mono caps at the foot.
+ */
 export default async function Projects() {
-    const projects = await getProjects()
-    return (
-        <div className="ks-theme relative z-[2] min-h-dvh">
-            <main className="mx-auto w-full max-w-6xl px-4 py-[clamp(32px,6vh,64px)]">
-                <nav className="mb-8 text-sm">
-                    <Byline newTab={false} />
-                </nav>
-                <ul className="flex flex-col gap-4">
-                    {projects.map((p) => (
-                        <li key={p.slug}>
-                            <a
-                                href={p.link ?? `/project/${p.slug}/`}
-                                className="group relative flex h-[33vh] min-h-56 items-center overflow-hidden rounded-[var(--radius)] border border-[var(--border)] bg-[var(--card)] transition-colors hover:border-[var(--ring)]"
-                            >
-                                {p.screenshot && (
-                                    <img
-                                        src={p.screenshot}
-                                        alt=""
-                                        loading="lazy"
-                                        className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                                    />
-                                )}
-                                {p.screenshot && (
-                                    <div
-                                        className="absolute inset-0"
-                                        // zinc-950 fading out to the right, as on the OG card
-                                        style={{ backgroundImage: 'linear-gradient(90deg, rgba(9,9,11,0.94) 0%, rgba(9,9,11,0.82) 30%, rgba(9,9,11,0.4) 58%, rgba(9,9,11,0) 82%)' }}
-                                    />
-                                )}
-                                <div className="relative flex max-w-xl flex-col gap-3 px-[clamp(20px,5vw,56px)]">
-                                    <img src={`/icon/${p.slug}.png`} alt="" width={48} height={48} className="size-12 rounded-xl border border-[var(--border)]" />
-                                    <h2 className="font-heading text-[clamp(1.75rem,4vw,2.75rem)] leading-tight font-semibold text-[var(--foreground)]">{p.name}</h2>
-                                    <p className="text-[clamp(1rem,1.6vw,1.25rem)] text-[var(--foreground)]/80">{p.tagline}</p>
-                                </div>
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-                {projects.length === 0 && <p className="text-[var(--muted-foreground)]">Nothing here yet.</p>}
-            </main>
+  const projects = await getProjects();
+  return (
+    <>
+      <Dust />
+
+      <main className="relative z-[2] flex min-h-dvh flex-col">
+        {/* The slate line, running the width of the page. */}
+        <div
+          className={`${SHELL} flex items-center justify-between gap-4 border-t border-hair pt-[10px] ${SLATE}`}
+        >
+          <span className="flex items-center gap-4">
+            <span className="text-gold">Projects</span>
+            <span className="text-ink-66 max-[700px]:hidden">
+              Everything I&rsquo;ve shipped
+            </span>
+          </span>
+          <span className="text-ink-52">{DOCUMENT_NUMBER}</span>
         </div>
-    )
+
+        <div className={`${SHELL} flex-1 pb-[clamp(48px,9vh,96px)]`}>
+          <header className="grid grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] items-end gap-x-[clamp(32px,6vw,110px)] gap-y-8 pt-[clamp(48px,11vh,120px)] max-[900px]:grid-cols-1">
+            <h1 className="ml-[-.04em] font-serif text-[clamp(2.25rem,5.5vw,5rem)] leading-[.96] heading-weight tracking-[-.05em]">
+              Open source, <span className="glow-hot italic">shipped.</span>
+            </h1>
+            <p className="max-w-[46ch] pb-[.6em] text-[clamp(1rem,1.15vw,1.1875rem)] leading-[1.6] text-ink-66">
+              Passion projects I&rsquo;ve built and put out in the open. Most
+              have a demo you can try; all of them have the code.
+            </p>
+          </header>
+
+          <ul className="mt-[clamp(40px,8vh,88px)] grid grid-cols-2 gap-[clamp(16px,2vw,28px)] max-[900px]:grid-cols-1">
+            {projects.map((project) => (
+              <li key={project.slug}>
+                <a
+                  href={project.link ?? `/project/${project.slug}/`}
+                  className="group relative flex aspect-[1200/630] flex-col justify-center overflow-hidden border border-hair bg-obsidian px-[clamp(22px,3.4vw,52px)] transition-colors duration-300 hover:border-[rgba(245,205,138,.5)]"
+                >
+                  {project.screenshot && (
+                    <img
+                      src={project.screenshot}
+                      alt=""
+                      loading="lazy"
+                      className="absolute inset-0 size-full object-cover transition-transform duration-[600ms] ease-lamp group-hover:scale-[1.02]"
+                    />
+                  )}
+                  {project.screenshot && (
+                    /* The card's own fade: near-black holding the left, falling away to the right. */
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(90deg, rgba(10,10,11,0.97) 0%, rgba(10,10,11,0.94) 42%, rgba(10,10,11,0.72) 62%, rgba(10,10,11,0.2) 84%, rgba(10,10,11,0.05) 100%)",
+                      }}
+                    />
+                  )}
+
+                  <div className="relative flex flex-col">
+                    <h2 className="font-serif text-[clamp(1.5rem,2.6vw,2.5rem)] leading-[1.1] heading-weight tracking-[-.045em] text-ink">
+                      {project.name}
+                    </h2>
+                    <p className="mt-[.6em] max-w-[36ch] text-[clamp(.875rem,1.05vw,1.0625rem)] leading-[1.45] text-ink-55">
+                      {project.tagline}
+                    </p>
+                    <span className="mt-[1.1em] font-mono text-[11px] tracking-[.18em] text-gold uppercase">
+                      {project.link
+                        ? new URL(project.link).hostname.replace(/^www\./, "")
+                        : `kevinschaich.com/project/${project.slug}`}
+                    </span>
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          {projects.length === 0 && (
+            <p className="mt-10 text-ink-55">Nothing here yet.</p>
+          )}
+        </div>
+
+        {/* darkgrade.com's bottom strip: the blurred panel, edge to edge */}
+        <footer className="panel border-t border-hair">
+          <div
+            className={`${SHELL} flex items-center justify-between gap-5 py-[20px] font-mono text-[11px] tracking-[.06em] whitespace-nowrap text-ink-52`}
+          >
+            <a
+              href="/"
+              className="transition-colors duration-300 hover:text-gold"
+            >
+              © 2026 KEVIN SCHAICH
+            </a>
+            <a
+              href="https://github.com/kevinschaich"
+              target="_blank"
+              rel="noopener me"
+              className="transition-colors duration-300 hover:text-gold"
+            >
+              GITHUB
+            </a>
+            <span className="max-[640px]:hidden">DENVER, COLORADO</span>
+          </div>
+        </footer>
+      </main>
+    </>
+  );
 }
