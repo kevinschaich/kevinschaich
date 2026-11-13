@@ -96,13 +96,8 @@ export default function Home() {
           </nav>
 
           <nav aria-label="Kevin Schaich" className="mt-[clamp(28px,5vh,44px)]">
-            <h2
-              className={`${SLATE} border-t border-hair pt-[10px] text-ink-66`}
-            >
-              <span className="mr-4 text-gold">Elsewhere</span>
-              Kevin Schaich
-            </h2>
-            <ul className="mt-2">
+            <h2 className={`${SLATE} text-gold`}>Elsewhere</h2>
+            <ul className="mt-[6px] border-t border-hair">
               {PERSONAL_LINKS.map((link) => (
                 <li key={link.label}>
                   <a
