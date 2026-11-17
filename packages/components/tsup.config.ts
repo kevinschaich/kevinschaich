@@ -7,15 +7,19 @@ import { defineConfig } from 'tsup'
 // as '@kevinschaich/components/map', and the Vite plugin dist/map/vite.js), with shared code split into chunks, so a
 // project only ships what it imports. Dependencies stay external. scripts/use-client.mjs adds "use client" after
 // the build, since the bundler drops directives.
-const ui = Object.fromEntries(
-    readdirSync('src/components/ui')
-        .filter((f) => f.endsWith('.tsx'))
-        .map((f) => [`ui/${f.slice(0, -4)}`, `src/components/ui/${f}`]),
-)
+const entries = (dir: string) =>
+    Object.fromEntries(
+        readdirSync(`src/components/${dir}`)
+            .filter((f) => f.endsWith('.tsx'))
+            .map((f) => [`${dir}/${f.slice(0, -4)}`, `src/components/${dir}/${f}`]),
+    )
+const ui = entries('ui')
+// shadcn's AI Elements (dist/ai/<name>.js), imported as '@kevinschaich/components/ai/<name>'.
+const ai = entries('ai')
 
 export default defineConfig([
     {
-    entry: { index: 'src/index.ts', 'map/index': 'src/map/index.ts', 'map/vite': 'src/map/vite.ts', ...ui },
+    entry: { index: 'src/index.ts', 'map/index': 'src/map/index.ts', 'map/vite': 'src/map/vite.ts', ...ui, ...ai },
     format: ['esm'],
     dts: true,
     splitting: true,

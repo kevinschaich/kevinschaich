@@ -55,6 +55,63 @@ No build step? Load the runtime kit from kevinschaich.com instead, which always 
 <span data-ks-byline="kevinschaich/backroads"></span>
 ```
 
+## Toasts
+
+Use Sonner for toasts: render `<Toaster />` once and call `toast("Saved")` (or `toast.success(…)`, `toast.error(…)`).
+Both come from `@kevinschaich/components/ui/sonner`, so a project never installs `sonner` itself. The package root
+already has a `Toaster` and `toast` (Base UI's toast, kept as it was), so from the root they are `SonnerToaster` and
+`sonnerToast`. The toaster follows `class="dark"` on `<html>` (or next-themes, where a project uses it).
+
+```tsx
+import { Toaster, toast } from '@kevinschaich/components/ui/sonner'
+```
+
+## Data table
+
+`DataTable` is shadcn's [Data Table](https://ui.shadcn.com/docs/components/base/data-table) recipe made reusable, on
+TanStack Table v9: sorting, a filter field, a Columns menu, row selection and pagination.
+
+```tsx
+import { createDataTableColumnHelper, DataTable, DataTableColumnHeader } from '@kevinschaich/components'
+
+const col = createDataTableColumnHelper<Payment>()
+const columns = col.columns([
+    col.accessor('email', { header: ({ column }) => <DataTableColumnHeader column={column} title="Email" /> }),
+    col.accessor('amount', { header: 'Amount' }),
+])
+
+<DataTable columns={columns} data={payments} filterColumn="email" filterPlaceholder="Filter emails…" />
+```
+
+Props: `pageSize` (10), `pageSizes`, `columnToggle` (true), `selectionCount`, `empty`, `toolbar` (extra controls),
+`getRowId`, `onRowSelectionChange`. `DataTableViewOptions` and `DataTablePagination` are exported for tables built by
+hand with `useTable` and `dataTableFeatures`. Also `@kevinschaich/components/ui/data-table`.
+
+## AI Elements
+
+shadcn's [AI Elements](https://ui.shadcn.com/docs/ai-elements), the patterns for agent interfaces, live in
+`src/components/ai/`, one file per pattern: Chain of Thought, Chat, Checkpoint, Confirmation, Context, File Tree,
+Inline Citation, Message, Model Selector, Plan, Prompt Input, Queue, Reasoning, Sources, Stack Trace, Subagent,
+Suggestion, Task, Terminal, Test Results and Tool. shadcn publishes them as demos to copy; here each is a set of
+reusable parts with the names AI SDK Elements uses (`Reasoning`, `ReasoningTrigger`, `ReasoningContent`, `Tool`,
+`ToolHeader`, …), rebuilt the way shadcn's Base UI pages build them, on Trace, Code Block, Message Scroller,
+Input Group, Item, Marker and Hover Card. They take plain props, so they work with the AI SDK's message parts (a
+tool part fits `ToolPart`) without the package depending on the AI SDK.
+
+```tsx
+import { Reasoning, ReasoningContent, ReasoningTrigger } from '@kevinschaich/components/ai/reasoning'
+
+<Reasoning isStreaming={part.state === 'streaming'} duration={seconds}>
+    <ReasoningTrigger />
+    <ReasoningContent>{part.text}</ReasoningContent>
+</Reasoning>
+```
+
+Import each from `@kevinschaich/components/ai/<name>` (the pattern's file name, e.g. `ai/prompt-input`), or by name
+from the root. The root keeps the names it already had, so where an AI Element's name is taken it is only at its
+subpath: `Message` and `MessageContent` from `ai/message` (the root's are shadcn's ui/message). Markdown is not
+rendered for you: pass rendered Markdown to `MessageResponse` and `ReasoningContent`, or a string.
+
 ## Map
 
 Shared MapLibre pieces for the map projects, in their own entry point so apps without a map never pull in MapLibre:
@@ -188,6 +245,7 @@ While a mode is on, feature `onSelect` and `onBackgroundClick` are paused (`useM
 
 ## Working on it
 
-- Add a shadcn component: `bunx shadcn add <name>` here, then export it from `src/index.ts`.
+- Add a shadcn component: `bunx shadcn add <name>` here; the build exports it from `src/index.ts`
+  (`scripts/gen-index.mjs`). An AI Element goes in `src/components/ai/<name>.tsx` and is exported the same way.
 - `bun run build` regenerates the plain-CSS tokens from `src/theme.css` and builds `dist/`.
 - Release: bump `version` and push; CI publishes through npm trusted publishing.
