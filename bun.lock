@@ -49,7 +49,7 @@
     },
     "packages/components": {
       "name": "@kevinschaich/components",
-      "version": "0.8.3",
+      "version": "0.9.0",
       "dependencies": {
         "@base-ui/react": "^1.9.0",
         "@fontsource-variable/jetbrains-mono": "^5.3.0",
