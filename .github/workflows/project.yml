@@ -9,6 +9,10 @@ on:
         description: Source HTML page to check for title, byline and OG tags
         type: string
         default: index.html
+      own-site:
+        description: The project is published under its own brand and address (Darkgrade's benches), so its title, byline, OG image, favicon and asset paths are its own and are not checked here
+        type: boolean
+        default: false
 
 jobs:
   check:
@@ -42,6 +46,7 @@ jobs:
         run: bun install --frozen-lockfile && bun run build
 
       - name: Check project.json, title, byline and OG tags
+        if: ${{ !inputs.own-site }}
         env:
           PAGE: ${{ inputs.html }}
         run: |
@@ -60,6 +65,7 @@ jobs:
       - name: Check the tagline and icon
         env:
           PAGE: ${{ inputs.html }}
+          OWN_SITE: ${{ inputs.own-site }}
         run: |
           fail() { echo "::error::$1"; exit 1; }
           tagline=$(jq -er .tagline project.json) || fail "project.json needs a tagline"
@@ -67,8 +73,10 @@ jobs:
           # The README's first line under the "# <Name>" heading is the tagline.
           readme=$(awk '/^# /{h=1; next} h && NF {print; exit}' README.md)
           [ "$readme" = "$tagline" ] || fail "README tagline '$readme' must match project.json tagline '$tagline'"
-          desc=$(grep -oE '<meta[^>]+property="og:description"[^>]*>' "$PAGE" | sed -E 's/.*content="([^"]*)".*/\1/')
-          [ "$desc" = "$tagline" ] || fail "og:description '$desc' must match project.json tagline '$tagline'"
+          if [ "$OWN_SITE" != true ]; then
+            desc=$(grep -oE '<meta[^>]+property="og:description"[^>]*>' "$PAGE" | sed -E 's/.*content="([^"]*)".*/\1/')
+            [ "$desc" = "$tagline" ] || fail "og:description '$desc' must match project.json tagline '$tagline'"
+          fi
           if grep -qE '\]\(https://[^)]*\.vercel\.app' README.md; then fail "README links must point at https://kevinschaich.com/project/<slug>/, not *.vercel.app"; fi
           icon=$(jq -r '.icon // empty' project.json)
           curl -fsI "https://unpkg.com/lucide-static/icons/$icon.svg" >/dev/null 2>&1 || echo "::warning::'$icon' isn't a Lucide icon (lucide.dev/icons); the hub falls back to box"
